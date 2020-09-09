@@ -11,12 +11,12 @@ public class Launcher {
 	public static void main(String[] args) 
 	{
 		/*
-		 * Границы
+		 * Borders
 		 */
 		int l = 4;
 		int r = 20;
 		/*
-		 * Подсчёт кол-ва чётных чисел
+		 * Counting even numbers
 		 */
 		for(int i = l; i <= r; i++)
 		{
@@ -26,12 +26,12 @@ public class Launcher {
 			}
 		}
 		/*
-		 * Инициализация массива
+		 * Init array "d"
 		 */
 		d = new long[chc];
 		
 		/*
-		 * Чётные числа
+		 * Fill in the array "d" with even numbers
 		 */
 		for(int i = r; i >= l; i--)
 		{
@@ -43,12 +43,12 @@ public class Launcher {
 		}
 		
 		/*
-		 * Инициализация массива
+		 * Init array "x"
 		 */
 		x = new double[13];
 		
 		/*
-		 * Рассчёт массива x
+		 * Counting array "x"
 		 */
 		for(int i = 0; i < 13; i++)
 		{
@@ -56,7 +56,7 @@ public class Launcher {
 		}
 		
 		/*
-		 * Заполнение двумерного массива  
+		 * Fill in the two-d array  
 		 */
 		for(int i = 0; i < 9; i++)
 		{
@@ -74,7 +74,7 @@ public class Launcher {
 				{
 					b[i][j] = Math.asin(0.5 * Math.pow(Math.E, Math.cbrt(-Math.abs(x[j]))));
 				}
-				//Вывод
+				//Output
 				System.out.printf("%.5f" + "   ", b[i][j]);
 			}
 			System.out.println();

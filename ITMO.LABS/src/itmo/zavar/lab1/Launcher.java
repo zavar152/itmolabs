@@ -75,9 +75,9 @@ public class Launcher {
 					b[i][j] = Math.asin(0.5 * Math.pow(Math.E, Math.cbrt(-Math.abs(x[j]))));
 				}
 				//Вывод
-				System.out.printf("%.5f", b[i][j]);
-				System.out.println();
+				System.out.printf("%.5f" + "   ", b[i][j]);
 			}
+			System.out.println();
 		}
 	}
 

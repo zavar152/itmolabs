@@ -48,11 +48,11 @@ public class Launcher {
 		x = new double[13];
 		
 		/*
-		 * Counting array "x"
+		 * Counting array "x" [-3.0; 2.0]
 		 */
 		for(int i = 0; i < 13; i++)
 		{
-			x[i] = (Math.random() * 5.0) - 3.0;
+			x[i] = (float)((int)(Math.random()*51) - 30)/10;
 		}
 		
 		/*

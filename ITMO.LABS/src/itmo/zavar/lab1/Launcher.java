@@ -1,5 +1,7 @@
 package itmo.zavar.lab1;
 
+import java.awt.Color;
+
 public class Launcher {
 
 	private static long d[];
@@ -7,6 +9,10 @@ public class Launcher {
 	private static double b[][] = new double[9][13];
 	
 	private static int chc = 0;
+	
+	public static final String ANSI_RESET = "\u001B[0m";
+	
+	public static final String COLORS[] = {"\u001B[31m", "\u001B[33m", "\u001B[32m", "\u001B[36m", "\u001B[34m", "\u001B[35m", "\u001B[31m", "\u001B[33m", "\u001B[32m", "\u001B[36m", "\u001B[34m", "\u001B[35m", "\u001B[31m"};
 	
 	public static void main(String[] args) 
 	{
@@ -75,10 +81,25 @@ public class Launcher {
 					b[i][j] = Math.asin(0.5 * Math.pow(Math.E, Math.cbrt(-Math.abs(x[j]))));
 				}
 				//Output
-				System.out.printf("%.5f" + "   ", b[i][j]);
+				
+				//Linux
+				//System.out.printf(COLORS[j] + "%10.5f" + "   " + ANSI_RESET, b[i][j]);
+				//Windows
+				System.out.printf("%10.5f" + "   ", b[i][j]);
 			}
 			System.out.println();
+			offset();
 		}
+	}
+	
+	private static void offset()
+	{
+		String b = COLORS[1];
+		for(int y = 0; y < 12; y++)
+		{
+			COLORS[y] = COLORS[y + 1];
+		}
+		COLORS[COLORS.length-1] = b;
 	}
 
 }

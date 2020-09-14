@@ -1,91 +1,81 @@
 package itmo.zavar.lab1;
 
-import java.awt.Color;
-
 public class Launcher {
 
-	private static long d[];
-	private static double x[];
-	private static double b[][] = new double[9][13];
-	
-	private static int chc = 0;
+	private static short d[];
+	private static float x[];
+	private static double b[][] = new double[15][15];
 	
 	public static final String ANSI_RESET = "\u001B[0m";
 	
-	public static final String COLORS[] = {"\u001B[31m", "\u001B[33m", "\u001B[32m", "\u001B[36m", "\u001B[34m", "\u001B[35m", "\u001B[31m", "\u001B[33m", "\u001B[32m", "\u001B[36m", "\u001B[34m", "\u001B[35m", "\u001B[31m"};
+	public static final String COLORS[] = {"\u001B[31m", "\u001B[33m", "\u001B[32m", "\u001B[36m", "\u001B[34m", "\u001B[35m", "\u001B[31m", "\u001B[33m", "\u001B[32m", "\u001B[36m", "\u001B[34m", "\u001B[35m", "\u001B[31m", "\u001B[33m", "\u001B[32m"};
+	
+	private static int type = 0;
 	
 	public static void main(String[] args) 
 	{
 		/*
+		 * Detecting linux
+		 */
+		String os = System.getProperty("os.name").toLowerCase();
+		if(os.indexOf("win") >= 0)
+		{
+			type = 1;
+		}
+		
+		/*
 		 * Borders
 		 */
-		int l = 4;
-		int r = 20;
-		/*
-		 * Counting even numbers
-		 */
-		for(int i = l; i <= r; i++)
-		{
-			if(i % 2 == 0)
-			{
-				chc++;
-			}
-		}
+		short l = 6;
+		short r = 20;
 		/*
 		 * Init array "d"
 		 */
-		d = new long[chc];
-		
+		d = new short[r-l+1];
 		/*
-		 * Fill in the array "d" with even numbers
+		 * Fill in the array "d"
 		 */
-		for(int i = r; i >= l; i--)
+		for(int i = 0; i < d.length; i++)
 		{
-			if(i % 2 == 0)
-			{
-				chc--;
-				d[chc] = i;
-			}
+			d[i] = (short) (r-i);
 		}
-		
 		/*
 		 * Init array "x"
 		 */
-		x = new double[13];
+		x = new float[15];
 		
 		/*
-		 * Counting array "x" [-3.0; 2.0]
+		 * Counting array "x" [-12.0; 13.0]
 		 */
-		for(int i = 0; i < 13; i++)
+		for(int i = 0; i < x.length; i++)
 		{
-			x[i] = (float)((int)(Math.random()*51) - 30)/10;
+			x[i] = (float) rnd(7);//(float) ((Math.random()*25) - 12);
 		}
 		
 		/*
 		 * Fill in the two-d array  
 		 */
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 15; i++)
 		{
-			for(int j = 0; j < 13; j++)
+			for(int j = 0; j < 15; j++)
 			{
-				if(d[i] == 16)
+				if(d[i] == 10)
 				{
-					b[i][j] = Math.tan(Math.pow(Math.E, x[j] / 0.5));
+					b[i][j] = Math.cos(Math.pow(Math.pow(1/3 - x[j], x[j]), Math.asin((x[j] + 0.5)/25)/3));
 				}
-				else if(d[i] == 4 || d[i] == 8 || d[i] == 18 || d[i] == 20)
+				else if(d[i] == 7 || d[i] == 9 || d[i] == 11 || d[i] == 12 || d[i] == 13 || d[i] == 14 || d[i] == 16)
 				{
-					b[i][j] = Math.pow(4 * Math.sin(Math.atan((x[j] - 0.5) / 5)), 2);
+					b[i][j] = Math.pow((0.25 - Math.pow(Math.atan((x[j] + 0.5)/25), Math.PI*Math.pow(Math.E, x[j])))/Math.PI, 3);
 				}
 				else
 				{
-					b[i][j] = Math.asin(0.5 * Math.pow(Math.E, Math.cbrt(-Math.abs(x[j]))));
+					b[i][j] = (Math.atan(Math.pow((x[j] + 0.5)/25, 4)))/6;
 				}
 				//Output
-				
-				//Linux
-				//System.out.printf(COLORS[j] + "%10.5f" + "   " + ANSI_RESET, b[i][j]);
-				//Windows
-				System.out.printf("%10.5f" + "   ", b[i][j]);
+				if(type == 0)
+				System.out.printf(COLORS[j] + "%7.4f" + "   " + ANSI_RESET, b[i][j]);//Linux
+				else
+				System.out.printf("%7.4f" + "   ", b[i][j]);//Windows
 			}
 			System.out.println();
 			offset();
@@ -94,12 +84,16 @@ public class Launcher {
 	
 	private static void offset()
 	{
-		String b = COLORS[1];
-		for(int y = 0; y < 12; y++)
+		String b = COLORS[3];
+		for(int y = 0; y < 14; y++)
 		{
 			COLORS[y] = COLORS[y + 1];
 		}
 		COLORS[COLORS.length-1] = b;
 	}
 
+	private static double rnd(int precision)
+	{
+		return (double)((int)(Math.random()*(25*Math.pow(10, precision) + 1)) - 12*Math.pow(10, precision))/Math.pow(10, precision);
+	}
 }

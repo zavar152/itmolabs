@@ -1,5 +1,7 @@
 package itmo.zavar.lab2;
 
+import java.util.Map;
+
 import itmo.zavar.lab2.pokemons.PokemonBounsweet;
 import itmo.zavar.lab2.pokemons.PokemonClamperl;
 import itmo.zavar.lab2.pokemons.PokemonDarkrai;

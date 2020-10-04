@@ -21,6 +21,6 @@ public class MoveScaryFace extends StatusMove
 	@Override
 	protected String describe() 
 	{
-		return "Уменьшает скорость противника на 2 пункта";
+		return "Уменьшает скорость противника на 2 пункта (Scary Face)";
 	}
 }

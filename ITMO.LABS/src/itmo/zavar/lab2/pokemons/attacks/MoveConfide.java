@@ -21,6 +21,6 @@ public class MoveConfide extends StatusMove
 	@Override
 	protected String describe()
 	{
-	    return "Понижает специальную атаку противника на один пункт";
+	    return "Понижает специальную атаку противника на один пункт (Confide)";
 	}
 }

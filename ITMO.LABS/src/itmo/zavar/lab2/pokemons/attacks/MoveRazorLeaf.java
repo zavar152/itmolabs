@@ -20,6 +20,6 @@ public class MoveRazorLeaf extends PhysicalMove
 	@Override
 	protected String describe() 
 	{
-		return "Увеличение множителя критического урона";
+		return "Увеличение множителя критического урона (Razor Leaf)";
 	}
 }

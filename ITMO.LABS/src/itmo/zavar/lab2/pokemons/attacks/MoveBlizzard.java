@@ -24,6 +24,6 @@ public class MoveBlizzard extends SpecialMove
 	@Override
 	protected String describe()
 	{
-		return "Замораживает противника с 10% шансом";
+		return "Замораживает противника с 10% шансом (Blizzard)";
 	}
 }

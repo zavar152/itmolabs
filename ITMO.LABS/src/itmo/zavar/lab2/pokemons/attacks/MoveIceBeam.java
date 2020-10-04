@@ -24,6 +24,6 @@ public class MoveIceBeam extends SpecialMove
 	@Override
 	protected String describe() 
 	{
-		return "С шансом 10% замораживает противника";
+		return "С шансом 10% замораживает противника (Ice Beam)";
 	}
 }

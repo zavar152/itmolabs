@@ -24,6 +24,6 @@ public class MoveSludgeBomb extends SpecialMove
 	@Override
 	protected String describe() 
 	{
-		return "С шансом 30% отравляет противника";
+		return "С шансом 30% отравляет противника (Sludge Bomb)";
 	}
 }

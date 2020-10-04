@@ -23,7 +23,7 @@ public class MoveRest extends StatusMove
 	@Override
 	protected String describe() 
 	{
-		return "Усыпляет самого себя";
+		return "Усыпляет самого себя (Rest)";
 	}
 	
 }

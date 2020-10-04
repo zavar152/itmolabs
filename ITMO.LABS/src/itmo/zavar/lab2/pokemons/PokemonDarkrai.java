@@ -1,5 +1,6 @@
 package itmo.zavar.lab2.pokemons;
 
+import itmo.zavar.lab2.pokemons.attacks.MoveBlizzard;
 import itmo.zavar.lab2.pokemons.attacks.MoveHypnosis;
 import itmo.zavar.lab2.pokemons.attacks.MoveIceBeam;
 import itmo.zavar.lab2.pokemons.attacks.MoveSludgeBomb;
@@ -13,6 +14,6 @@ public class PokemonDarkrai extends Pokemon
 		super(name, level);
 		setStats(70, 90, 90, 135, 90, 125);
 		setType(Type.DARK);
-		setMove(new MoveHypnosis(), new MoveSludgeBomb(), new MoveIceBeam(), new MoveSludgeBomb());
+		setMove(new MoveHypnosis(), new MoveSludgeBomb(), new MoveIceBeam(), new MoveBlizzard());
 	}
 }

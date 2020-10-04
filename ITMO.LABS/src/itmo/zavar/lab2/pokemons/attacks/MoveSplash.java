@@ -1,5 +1,6 @@
 package itmo.zavar.lab2.pokemons.attacks;
 
+import ru.ifmo.se.pokemon.Pokemon;
 import ru.ifmo.se.pokemon.StatusMove;
 import ru.ifmo.se.pokemon.Type;
 
@@ -11,8 +12,14 @@ public class MoveSplash extends StatusMove
 	}
 	
 	@Override
+	protected void applyOppEffects(Pokemon var1) 
+	{
+		super.applyOppEffects(var1);
+	}
+	
+	@Override
 	protected String describe() 
 	{
-		return "Испольлзует Splash и ничего не делает";
+		return "Испольлзует Splash и ничего не делает (Splash)";
 	}
 }

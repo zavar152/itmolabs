@@ -21,6 +21,6 @@ public class MovePlayNice extends StatusMove
 	@Override
 	protected String describe()
 	{
-	    return "ѕонижает атаку противника на один пункт (Play Nice)";
+	    return "Lowers the enemy's attack by one point (Play Nice)";
 	}
 }

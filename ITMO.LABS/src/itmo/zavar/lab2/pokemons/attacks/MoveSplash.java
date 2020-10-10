@@ -20,6 +20,6 @@ public class MoveSplash extends StatusMove
 	@Override
 	protected String describe() 
 	{
-		return "Испольлзует Splash и ничего не делает (Splash)";
+		return "Uses Splash and does nothing (Splash)";
 	}
 }

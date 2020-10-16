@@ -9,7 +9,7 @@ public class MoveConfide extends StatusMove
 {
 	public MoveConfide() 
 	{
-		super(Type.NORMAL, 0, 0);
+		super(Type.NORMAL, 0, 1);
 	}
 	
 	@Override
@@ -21,6 +21,6 @@ public class MoveConfide extends StatusMove
 	@Override
 	protected String describe()
 	{
-	    return "Lowers the opponent's special attack by one point (Confide)";
+	    return "понижает показатель атаки соперника на один пункт (Confide)";
 	}
 }

@@ -7,10 +7,6 @@
     "slim and flexible",
     "better for configuration"
   ],
-  "tert": [
-    "sfghlim aghd flefghxible",
-    "bettfgher for confghfiguration"
-  ],
   "object": {
     "key": "value",
     "array": [
@@ -25,10 +21,6 @@
       }
     ]
   },
-  "ttert": [
-    "sfghlim aghd flefghxible",
-    "bettfgher for confghfiguration"
-  ],
   "paragraph": "Blank lines denote\nparagraph breaks\n",
   "content": "Or we\ncan auto\nconvert line breaks\nto save space"
 }

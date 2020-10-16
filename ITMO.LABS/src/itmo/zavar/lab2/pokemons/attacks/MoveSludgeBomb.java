@@ -15,7 +15,7 @@ public class MoveSludgeBomb extends SpecialMove
 	@Override
 	protected void applyOppEffects(Pokemon var1) 
 	{
-		if((int)(Math.random()*100.1) <= 30)
+		if(Math.random() <= 0.3)
 		{
 			Effect.poison(var1);
 		}
@@ -24,6 +24,6 @@ public class MoveSludgeBomb extends SpecialMove
 	@Override
 	protected String describe() 
 	{
-		return "Poison the enemy with a 30% chance (Sludge Bomb)";
+		return "отравляет соперника (Sludge Bomb)";
 	}
 }

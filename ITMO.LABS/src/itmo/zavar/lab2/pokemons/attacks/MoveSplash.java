@@ -8,7 +8,7 @@ public class MoveSplash extends StatusMove
 {
 	public MoveSplash() 
 	{
-		super(Type.NORMAL, 0, 0);
+		super(Type.NORMAL, 0, 1);
 	}
 	
 	@Override
@@ -20,6 +20,6 @@ public class MoveSplash extends StatusMove
 	@Override
 	protected String describe() 
 	{
-		return "Uses Splash and does nothing (Splash)";
+		return "ничего не делает (Splash)";
 	}
 }

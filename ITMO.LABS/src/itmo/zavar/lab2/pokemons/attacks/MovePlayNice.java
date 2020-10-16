@@ -9,7 +9,7 @@ public class MovePlayNice extends StatusMove
 {
     public MovePlayNice()
     {
-        super(Type.NORMAL, 0, 0);
+        super(Type.NORMAL, 0, 1);
     }
     
 	@Override
@@ -21,6 +21,6 @@ public class MovePlayNice extends StatusMove
 	@Override
 	protected String describe()
 	{
-	    return "Lowers the enemy's attack by one point (Play Nice)";
+	    return "понижает показатель атаки соперника на 1 пункт (Play Nice)";
 	}
 }

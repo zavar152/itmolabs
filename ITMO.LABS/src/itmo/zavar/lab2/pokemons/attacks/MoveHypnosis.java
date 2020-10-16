@@ -28,6 +28,6 @@ public class MoveHypnosis extends StatusMove
 	@Override
 	protected String describe() 
 	{
-		return "Puts the enemy to sleep (Hypnosis)";
+		return "усыпляет соперника (Hypnosis)";
 	}
 }

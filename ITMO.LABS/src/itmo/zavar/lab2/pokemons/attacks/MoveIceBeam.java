@@ -15,7 +15,7 @@ public class MoveIceBeam extends SpecialMove
 	@Override
 	protected void applyOppEffects(Pokemon var1) 
 	{
-		if((int)(Math.random()*100.1) <= 10)
+		if(Math.random() <= 0.1)
 		{
 			Effect.freeze(var1);;
 		}
@@ -24,6 +24,6 @@ public class MoveIceBeam extends SpecialMove
 	@Override
 	protected String describe() 
 	{
-		return "With a 10% chance, freezes the opponent (Ice Beam)";
+		return "замораживает соперника (Ice Beam)";
 	}
 }

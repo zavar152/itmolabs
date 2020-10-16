@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Parser 
+public class JSONParser 
 {
 	public static void main(String[] args) throws IOException 
 	{

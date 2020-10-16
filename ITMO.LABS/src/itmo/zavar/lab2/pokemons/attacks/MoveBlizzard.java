@@ -15,15 +15,15 @@ public class MoveBlizzard extends SpecialMove
 	@Override
 	protected void applyOppEffects(Pokemon var1) 
 	{
-		if((int)(Math.random()*100.1) <= 10)
+		if(Math.random() <= 0.1)
 		{
-			Effect.freeze(var1);;
+			Effect.freeze(var1);
 		}
 	}
 	
 	@Override
 	protected String describe()
 	{
-		return "Freezing with 10% chance (Blizzard)";
+		return "замораживает соперника (Blizzard)";
 	}
 }

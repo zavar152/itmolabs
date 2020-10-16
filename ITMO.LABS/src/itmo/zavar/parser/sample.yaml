@@ -1,0 +1,29 @@
+---
+monday:
+  lesson1:
+  - subject: ФИЗИКА
+  - type: ЛЕКЦИЯ
+  - room: 550
+  - street: Биржевая линия, д.16, лит.А
+  - week: 
+  - time: 
+      begin: '11:40'
+      end: '13:10'
+  lesson2:
+  - subject: ФИЗИКА
+  - type: ПРАКТИКА
+  - room: 539
+  - street: Биржевая линия, д.16, лит.А
+  - week: чётная неделя
+  - time: 
+      begin: '13:30'
+      end: '15:00'
+  lesson3:
+  - subject: ФИЗИКА
+  - type: ЛАБОРАТОРНАЯ
+  - room: 539
+  - street: Биржевая линия, д.16, лит.А
+  - week: нечётная неделя
+  - time: 
+      begin: '13:30'
+      end: '15:00'

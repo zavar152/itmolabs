@@ -14,7 +14,7 @@ monday:
   - type: ÏÐÀÊÒÈÊÀ
   - room: 539
   - street: Áèðæåâàÿ ëèíèÿ, ä.16, ëèò.À
-  - week: нечет
+  - week: fdgdfg
   - time:
       begin: '13:30'
       end: '15:00'
@@ -23,7 +23,7 @@ monday:
   - type: ËÀÁÎÐÀÒÎÐÍÀß
   - room: 539
   - street: Áèðæåâàÿ ëèíèÿ, ä.16, ëèò.À
-  - week: чет
+  - week: dfgfd
   - time:
       begin: '13:30'
       end: '15:00'

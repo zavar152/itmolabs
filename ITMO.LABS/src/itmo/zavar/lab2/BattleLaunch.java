@@ -26,6 +26,6 @@ public class BattleLaunch
 			b.addFoe(huntail);
 			b.addFoe(steenee);
 			b.addFoe(tsareena);
-			b.go();
+			b.go(); 
 	}
 }

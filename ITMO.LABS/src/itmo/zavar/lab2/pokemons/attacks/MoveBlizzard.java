@@ -27,3 +27,4 @@ public class MoveBlizzard extends SpecialMove
 		return "замораживает соперника (Blizzard)";
 	}
 }
+ 

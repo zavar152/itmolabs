@@ -14,5 +14,5 @@ public class PokemonClamperl extends Pokemon
 		setStats(35, 64, 85, 74, 55, 32);
 		setType(Type.WATER);
 		setMove(new MoveRest(), new MoveBlizzard(), new MoveIceBeam());
-	}
+	} 
 }

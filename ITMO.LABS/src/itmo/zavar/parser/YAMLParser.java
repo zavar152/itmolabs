@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 
 public class YAMLParser 
 {
@@ -17,8 +15,6 @@ public class YAMLParser
 		String line, linesAsArray[];
         ArrayList<String> lines = new ArrayList<String>();
     	BufferedReader reader = null;
-    	String yamlAsString = null;
-    	List list = new Stack();
 		try
 		{
 			reader = new BufferedReader(new FileReader(json));
@@ -31,12 +27,9 @@ public class YAMLParser
         {
 			while((line = reader.readLine()) != null) 
 			{
-				//line.replace("\n", "");
 			    lines.add(line);
-				yamlAsString = yamlAsString + line; 
-				System.out.println(line);
+			    System.out.println(line);
 			}
-			yamlAsString = yamlAsString.substring(4);
 		}
         catch (IOException e) 
         {
@@ -52,38 +45,86 @@ public class YAMLParser
 			e.printStackTrace();
 		}
         
-        if(linesAsArray[0].equals("---"))
+        String result = "";
+        result = "{\n";
+        result = result + spaces(2) + quot(linesAsArray[0]) + ": [";
+        int lessons = getNum(linesAsArray[1]);
+        result = result + "\n" + spaces(4) +"{\n" + spaces(6) + getName(linesAsArray[1], 2) + " " + lessons + ",\n";
+        
+        int j = 2;
+        for(int i = 1; i <= lessons; i++)
         {
-
+        result = result + spaces(6) + getName(linesAsArray[j], 2) + " [\n" +
+        		bracket(getTypeName(linesAsArray[j+1], 2) + " " +getArg(linesAsArray[j+1]), 8) + ",\n" +
+        		bracket(getTypeName(linesAsArray[j+2], 2) + " " +getArg(linesAsArray[j+2]), 8) + ",\n" +
+        		bracket(getTypeName(linesAsArray[j+3], 2) + " " +getNum(linesAsArray[j+3]), 8) + ",\n" +
+        		bracket(getTypeName(linesAsArray[j+4], 2) + " " +getArg(linesAsArray[j+4]), 8) + ",\n" +
+        		bracket(getTypeName(linesAsArray[j+5], 2) + " " +getArg(linesAsArray[j+5]), 8) + ",\n" +
+        		bracket(getTypeName(linesAsArray[j+6], 2) + "\n" +bracket(getName(linesAsArray[j+7], 6) + " " +getTimeArg(linesAsArray[j+7]) + "," + "\n" 
+        		+ spaces(12) + getName(linesAsArray[j+8], 6) + " " +getTimeArg(linesAsArray[j+8]),10), 8) + "\n" + spaces(6);
+        	if(i == lessons)
+        	{
+        		result = result + "]\n";
+        	}
+        	else
+        	{
+        		result = result + "],\n";
+        	}
+        	j = j + 9;
         }
-        else
-        {
-        	System.out.println("It isn't a yaml");
-        }
+        result = result + spaces(4) + "}\n" + spaces(2) +"]\n" + "}";
+        System.out.println(result);
 	}
-	/*
-	 * boolean found = false;
-            while(!found)
-            {
-	            for(int i = 0; i < linesAsArray.length; i++)
-	            {
-	            	matcher = pattern.matcher(linesAsArray[i]);	
-		            if(matcher.find()) 
-		            {
-		            	System.out.println("Found" + snum);
-		            	found = true;
-		            	//System.out.println(matcher.group(1));
-		            	//System.out.println(yamlAsString.substring(matcher.end(1)));
-		             	//res.add(matcher.group(1));
-		                //i++;
-		                //res.add(yamlAsString.substring(matcher.end(1)));
-		             	//System.out.println(res.get(i));
-		             	//i++;
-		            }
-	            }
-	            snum++;
-	            regex = "(^\\s{" + snum + "}\\w)";
-	            pattern = Pattern.compile(regex);
-            }
-	 */
+	
+	private static String getName(String in, int c)
+	{
+		return quot(in.split(": ")[0].substring(c)) + ":";
+	}
+	
+	private static String getTypeName(String in, int c)
+	{
+		return quot(in.split(": ")[0].substring(c).replace("- ", "")) + ":";
+	}
+	
+	private static String getTimeArg(String in)
+	{
+		return "\"" + in.split("\'")[1] + "\"";
+	}
+	
+	private static String getArg(String in)
+	{
+		if(in.split(": ").length == 2)
+		{
+			return quot(in.split(": ")[1]);
+		}
+		else
+		{
+			return "null";
+		}
+	}
+	
+	private static int getNum(String in)
+	{
+		return Integer.parseInt(in.split(": ")[1]);
+	}
+	
+	private static String quot(String in)
+	{
+		return "\"" +  in.replace(":", "") + "\"";
+	}
+	
+	private static String bracket(String in, int sp)
+	{
+		return spaces(sp) + "{\n" + spaces(sp+2) + in + "\n" + spaces(sp) + "}";
+	}
+	
+	private static String spaces(int c)
+	{
+		String out = "";
+		for(int i = 0; i < c; i++)
+		{
+			out = out + " ";
+		}
+		return out;
+	}
 }

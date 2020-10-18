@@ -2,6 +2,7 @@ package itmo.zavar.lab2.pokemons.attacks;
 
 import ru.ifmo.se.pokemon.Effect;
 import ru.ifmo.se.pokemon.Pokemon;
+import ru.ifmo.se.pokemon.Stat;
 import ru.ifmo.se.pokemon.StatusMove;
 import ru.ifmo.se.pokemon.Type;
 
@@ -16,7 +17,7 @@ public class MoveRest extends StatusMove
 	protected void applySelfEffects(Pokemon pok) 
 	{
 		Effect.sleep(pok);
-		pok.restore();
+		pok.setMod(Stat.HP, (int) -(pok.getStat(Stat.HP) - pok.getHP()));
 	}
 	
 	@Override

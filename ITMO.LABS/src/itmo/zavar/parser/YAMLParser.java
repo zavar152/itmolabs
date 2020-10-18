@@ -61,7 +61,8 @@ public class YAMLParser
         		bracket(getTypeName(linesAsArray[j+4], 2) + " " +getArg(linesAsArray[j+4]), 8) + ",\n" +
         		bracket(getTypeName(linesAsArray[j+5], 2) + " " +getArg(linesAsArray[j+5]), 8) + ",\n" +
         		bracket(getTypeName(linesAsArray[j+6], 2) + "\n" +bracket(getName(linesAsArray[j+7], 6) + " " +getTimeArg(linesAsArray[j+7]) + "," + "\n" 
-        		+ spaces(12) + getName(linesAsArray[j+8], 6) + " " +getTimeArg(linesAsArray[j+8]),10), 8) + "\n" + spaces(6);
+        		+ spaces(12) + getName(linesAsArray[j+8], 6) + " " +getTimeArg(linesAsArray[j+8]),10), 8) + ",\n" + 
+        		bracket(getTypeName(linesAsArray[j+9], 2) + " " +getArg(linesAsArray[j+9]), 8) + "\n" + spaces(6);
         	if(i == lessons)
         	{
         		result = result + "]\n";
@@ -70,11 +71,11 @@ public class YAMLParser
         	{
         		result = result + "],\n";
         	}
-        	j = j + 9;
+        	j = j + 10;
         }
         result = result + spaces(4) + "}\n" + spaces(2) +"]\n" + "}";
         System.out.println(result);
-	}
+	} 
 	
 	private static String getName(String in, int c)
 	{

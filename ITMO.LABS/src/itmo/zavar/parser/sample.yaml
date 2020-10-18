@@ -9,6 +9,7 @@ monday:
   - time:
       begin: '11:40'
       end: '13:10'
+  - teacher: tech
   lesson2:
   - subject: ÔÈÇÈÊÀ
   - type: ÏÐÀÊÒÈÊÀ
@@ -17,7 +18,8 @@ monday:
   - week: нечет
   - time:
       begin: '13:30'
-      end: '15:00'
+      end: '15:00' 
+  - teacher: tech
   lesson3:
   - subject: ÔÈÇÈÊÀ
   - type: ËÀÁÎÐÀÒÎÐÍÀß
@@ -27,3 +29,4 @@ monday:
   - time:
       begin: '13:30'
       end: '15:00'
+  - teacher: tech

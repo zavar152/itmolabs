@@ -1,29 +1,32 @@
 monday:
 - count: 3
   lesson1:
-  - subject: ÔÈÇÈÊÀ
-  - type: ËÅÊÖÈß
+  - subject: Физика
+  - type: Лекция
   - room: 550
-  - street: Áèðæåâàÿ ëèíèÿ, ä.16, ëèò.À
+  - street: Биржевая линия, д.16, лит.А
   - week: 
   - time:
       begin: '11:40'
       end: '13:10'
+  - teacher: Нурыев Рустам Какабаевич
   lesson2:
-  - subject: ÔÈÇÈÊÀ
-  - type: ÏÐÀÊÒÈÊÀ
+  - subject: Физика
+  - type: Практика
   - room: 539
-  - street: Áèðæåâàÿ ëèíèÿ, ä.16, ëèò.À
-  - week: fdgdfg
+  - street: Биржевая линия, д.16, лит.А
+  - week: четная
   - time:
       begin: '13:30'
-      end: '15:00'
+      end: '15:00' 
+  - teacher: Агадуллин Вадим Рафаилевич
   lesson3:
-  - subject: ÔÈÇÈÊÀ
-  - type: ËÀÁÎÐÀÒÎÐÍÀß
+  - subject: Физика
+  - type: Лабораторная
   - room: 539
-  - street: Áèðæåâàÿ ëèíèÿ, ä.16, ëèò.À
-  - week: dfgfd
+  - street: Биржевая линия, д.16, лит.А
+  - week: нечетная
   - time:
       begin: '13:30'
       end: '15:00'
+  - teacher: Агадуллин Вадим Рафаилевич

@@ -23,10 +23,6 @@ def getTimeArg(i):
     return "\"" + i.split("\'")[1] + "\"";
 
 
-def getNum(i):
-    return i.split(": ")[1];
-
-
 def bracket(i, sp):
     return spaces(sp) + "{\n" + spaces(sp + 2) + i + "\n" + spaces(sp) + "}";
 
@@ -51,14 +47,14 @@ for line in f:
 
 result = "{\n";
 result = result + spaces(2) + quot(linesAsArray[0]).replace("\n", "") + ": [";
-lessons = getNum(linesAsArray[1]).replace("\n", "");
+lessons = getArg(linesAsArray[1]).replace("\"", "");
 result = result + "\n" + spaces(4) + "{\n" + spaces(6) + getName(linesAsArray[1], 2) + " " + lessons + ",\n";
 
 for i in range(int(lessons)):        
     result = result + spaces(6) + getName(linesAsArray[j], 2) + " [\n" + \
     bracket(getTypeName(linesAsArray[j + 1], 2) + " " + getArg(linesAsArray[j + 1]), 8) + ",\n" + \
     bracket(getTypeName(linesAsArray[j + 2], 2) + " " + getArg(linesAsArray[j + 2]), 8) + ",\n" + \
-    bracket(getTypeName(linesAsArray[j + 3], 2) + " " + getNum(linesAsArray[j + 3]), 8) + ",\n" + \
+    bracket(getTypeName(linesAsArray[j + 3], 2) + " " + getArg(linesAsArray[j + 3]), 8) + ",\n" + \
     bracket(getTypeName(linesAsArray[j + 4], 2) + " " + getArg(linesAsArray[j + 4]), 8) + ",\n" + \
     bracket(getTypeName(linesAsArray[j + 5], 2) + " " + getArg(linesAsArray[j + 5]), 8) + ",\n" + \
     bracket(getTypeName(linesAsArray[j + 6], 2) + "\n" + \

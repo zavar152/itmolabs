@@ -1,17 +1,32 @@
-glossary:
-  GlossDiv:
-    GlossList:
-      GlossEntry:
-        Abbrev: ISO 8879:1986
-        Acronym: SGML
-        GlossDef:
-          GlossSeeAlso:
-          - GML
-          - XML
-          para: A meta-markup language, used to create markup languages such as DocBook.
-        GlossSee: markup
-        GlossTerm: Standard Generalized Markup Language
-        ID: SGML
-        SortAs: SGML
-    title: S
-  title: example glossary
+monday:
+- count: 3
+  lesson1:
+  - subject: Физика
+  - type: Лекция
+  - room: 550
+  - street: Биржевая линия, д.16, лит.А
+  - week: 
+  - time:
+      begin: '11:40'
+      end: '13:10'
+  - teacher: Нурыев Рустам Какабаевич
+  lesson2:
+  - subject: Физика
+  - type: Практика
+  - room: 539
+  - street: Биржевая линия, д.16, лит.А
+  - week: четная
+  - time:
+      begin: '13:30'
+      end: '15:00' 
+  - teacher: Агадуллин Вадим Рафаилевич
+  lesson3:
+  - subject: Физика
+  - type: Лабораторная
+  - room: 539
+  - street: Биржевая линия, д.16, лит.А
+  - week: нечетная
+  - time:
+      begin: '13:30'
+      end: '15:00'
+  - teacher: Агадуллин Вадим Рафаилевич

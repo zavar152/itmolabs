@@ -65,7 +65,7 @@ for i in range(int(lessons)):
     j = j + 10;
 result = result[0:len(result) - 2] + "\n";
 result = result + spaces(4) + "}\n" + spaces(2) + "]\n" + "}";
-# print(result)
 res = open('sample.json', 'w');
 res.write(result);
+f.close()
 print("--- %s seconds ---" % (time.time() - start_time))

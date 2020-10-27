@@ -68,4 +68,4 @@ result = result + spaces(4) + "}\n" + spaces(2) + "]\n" + "}";
 res = open('sample.json', 'w');
 res.write(result);
 f.close()
-print("--- %s seconds ---" % (time.time() - start_time))
+print("--- %s seconds ---" % (time.time() - start_time)) 

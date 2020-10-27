@@ -17,7 +17,7 @@ public class MoveIceBeam extends SpecialMove
 	{
 		if(Math.random() <= 0.1)
 		{
-			Effect.freeze(var1);;
+			Effect.freeze(var1);
 		}
 	}
 	

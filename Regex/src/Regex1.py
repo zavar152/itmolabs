@@ -1,6 +1,6 @@
 import re
 
-regex = r"\b(\w+)\W+\1\b"
+regex = r"\b(\w+)\s+\1\b"
 
 test_str = ["Довольно распространённая ошибка ошибка – это повтор слова. Вот в предыдущем\n"
     "предложении такая допущена. Необходимо исправить каждый такой повтор.", "Довольно распространённая ошибка – это повтор слова. Вот в предыдущем\n"
@@ -15,5 +15,6 @@ for i in range(5):
                 test_str[i] = test_str[i].replace(match.group(1), '', 1)
             else:
                 test_str[i] = test_str[i].replace(match.group(), match.group(1))
+            
     print(test_str[i])
     print('\n')

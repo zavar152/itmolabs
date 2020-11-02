@@ -8,7 +8,7 @@ for line in f:
     if line != "":
         text = text + line;
 
-p = re.split(r'(?<=[.!?…])\s+', text)
+p = re.split(r'(?<=[.!?…])', text)
 res = open('hamlet/regex.txt', 'w');
 
 for i in p:

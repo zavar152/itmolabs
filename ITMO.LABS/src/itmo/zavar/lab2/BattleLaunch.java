@@ -23,19 +23,15 @@ public class BattleLaunch
 		builder.addFoe(new PokemonHuntail("Huntail", 1), new PokemonSteenee("Steenee", 1), new PokemonTsareena("Tsareena", 1));
 		builder.launchBattle();*/
 		
-		for (int i = 0; i < 100; i++) 
-		{
-			System.out.println("i=" + i + " " + Math.pow(i, 11) % 35);
-		}
 		
-		/*A a = new B();
+		A a = new B();
 		System.out.println(a.test);
 		System.out.println(a.testM());
 		System.out.println(a.testM2());
 		a = null;
 		//System.out.println(a.test);
 		//System.out.println(a.testM());
-		System.out.println(a.testM2());*/
+		System.out.println(a.testM2());
 	}
 }
 

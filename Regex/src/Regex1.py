@@ -11,9 +11,9 @@ test_str = ["Довольно распространённая ошибка ош
 for i in range(5):
     matches = re.finditer(regex, test_str[i], re.MULTILINE)
     for matchNum, match in enumerate(matches, start=1):
-        if match.group().find('\n') != -1:
-            test_str[i] = test_str[i].replace(match.group(1), '', 1)
-        else:
-            test_str[i] = test_str[i].replace(match.group(), match.group(1))
+            if match.group().find('\n') != -1:
+                test_str[i] = test_str[i].replace(match.group(1), '', 1)
+            else:
+                test_str[i] = test_str[i].replace(match.group(), match.group(1))
     print(test_str[i])
     print('\n')

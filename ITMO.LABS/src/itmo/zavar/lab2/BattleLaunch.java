@@ -32,7 +32,7 @@ public class BattleLaunch
 		//System.out.println(a.test);
 		//System.out.println(a.testM());
 		System.out.println(a.testM2());
-	}
+	}//2568
 }
 
 class A 

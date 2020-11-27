@@ -242,7 +242,7 @@ public class Launcher
 			else
 			{
 				carlson.say("Эх, сок закончился, надо пополнить запасы");
-				fillGinger(ostermalm.getHouse(0).getPorch());
+				fillJuice(ostermalm.getHouse(0).getPorch());
 				System.out.println("***запас сока пополнен, объём сока - " + ((Juice)ostermalm.getHouse(0).getPorch().getItem(1)).getVolume() + "***");
 			}
 			waiting(3000);
@@ -274,13 +274,13 @@ public class Launcher
 	private static void fillGinger(Porch porch)
 	{
 		int size = (int)(Math.random()*4);
-		porch.setItem(0, new Gingerbread((int)((Math.random()*5) + 1), Size.values()[size]).setCustomName("s1"));
+		porch.setItem(0, new Gingerbread((int)((Math.random()*5) + 1), Size.values()[size]).setCustomName("ginger"));
 	}
 	
 	private static void fillJuice(Porch porch)
 	{
 		int color = (int)(Math.random()*8);
-		porch.setItem(1, new Juice((int)((Math.random()*9) + 1), Color.values()[color]).setCustomName("s1"));
+		porch.setItem(1, new Juice((int)((Math.random()*9) + 1), Color.values()[color]).setCustomName("juice"));
 	}
 	
 	private static void waiting(long time)

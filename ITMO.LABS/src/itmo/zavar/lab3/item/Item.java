@@ -3,16 +3,24 @@ package itmo.zavar.lab3.item;
 public abstract class Item 
 {
 	private int count;
+	private String custom_name = "";
+	private int id;
 	
-	public void setCount(int count)
+	public Item(int id) 
+	{
+		this.id = id;
+	}
+	
+	public final Item setCount(int count)
 	{
 		if(isCountable())
 		{
 			this.count = count;
 		}
+		return this;
 	}
 	
-	public int getCount()
+	public final int getCount()
 	{
 		if(isCountable())
 		{
@@ -26,11 +34,49 @@ public abstract class Item
 	
 	public final String getName()
 	{
-		return "Item" + String.valueOf(hashCode());
+		if(!custom_name.isEmpty())
+		{
+			return custom_name;
+		}
+		else
+		{
+			return "Item" + hashCode();
+		}
+	}
+	
+	public final Item setCustomName(String name)
+	{
+		custom_name = name;
+		return this;
 	}
 	
 	public boolean isCountable()
 	{
 		return true;
+	}
+	
+	@Override
+	public final int hashCode() 
+	{
+		return id;
+	}
+	
+	@Override
+	public String toString() 
+	{
+		return getName() + ".c" + getCount();
+	}
+	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if((obj.hashCode() == hashCode()) && (obj instanceof Item))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

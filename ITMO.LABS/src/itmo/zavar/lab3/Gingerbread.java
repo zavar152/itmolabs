@@ -2,54 +2,64 @@ package itmo.zavar.lab3;
 
 import itmo.zavar.lab3.item.Eatable;
 import itmo.zavar.lab3.item.Item;
+import itmo.zavar.lab3.util.Size;
 
-public class Gingerbread extends Item implements Eatable
+public final class Gingerbread extends Item implements Eatable
 {
 	private boolean eaten = false;
+	private Size size;
 
-	public Gingerbread(int c) 
+	public Gingerbread(int c, Size size) 
 	{
+		super(1);
 		setCount(c);
+		this.size = size;
+	}
+	
+	public Size getSize() 
+	{
+		return size;
 	}
 	
 	@Override
-	public final boolean isEaten() 
+	public boolean isEaten() 
 	{
 		return eaten;
 	}
 
 	@Override
-	public final void takeBite() 
+	public void takeBite() 
 	{
-		if(getCount() != 0)
+		if(!eaten)
 		{
 			setCount(getCount()-1);
 		}
-		else
+		if(getCount() == 0)
 		{
 			eaten = true;
 		}
 	}
 	
 	@Override
-	public final int hashCode() 
+	public String toString() 
 	{
-		return 1;
+		return "Gingerbread.c" + getCount() + "." + getSize();
 	}
 	
 	@Override
-	public final String toString() 
+	public boolean equals(Object obj) 
 	{
-		return "Count of Gingerbreads: " + getCount();
-	}
-	
-	@Override
-	public final boolean equals(Object obj) 
-	{
-		Gingerbread ginger = (Gingerbread) obj;
-		if(ginger.getCount() == getCount())
+		if(obj instanceof Gingerbread)
 		{
-			return true;
+			Gingerbread ginger = (Gingerbread) obj;
+			if((ginger.getCount() == getCount()) && (ginger.getSize() == getSize()))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{

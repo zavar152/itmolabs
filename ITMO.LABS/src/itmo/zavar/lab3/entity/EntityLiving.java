@@ -5,10 +5,11 @@ import itmo.zavar.lab3.item.Eatable;
 
 public abstract class EntityLiving 
 {
-	private String name;
+	private String custom_name = "";
 	private EntityStatus status = EntityStatus.DEFAULT;
 	private int maxHunger = -1;
 	private int hunger = -1;
+	private int id;
 	
 	public abstract void drink(Drinkable drink);
 
@@ -18,9 +19,33 @@ public abstract class EntityLiving
 	
 	public abstract void awake();
 	
-	public String getName()
+	public abstract void lookAt(Object obj);
+	
+	public abstract void say(String m);
+	
+	public EntityLiving(int id, int maxHunger)
 	{
-		return name;
+		this.id = id;
+		this.maxHunger = maxHunger;
+		hunger = maxHunger;
+	}
+	
+	public final String getName()
+	{
+		if(!custom_name.isEmpty())
+		{
+			return custom_name;
+		}
+		else
+		{
+			return "Entity" + hashCode();
+		}
+	}
+	
+	public final EntityLiving setCustomName(String name)
+	{
+		custom_name = name;
+		return this;
 	}
 	
 	public final EntityStatus getStatus() 
@@ -28,9 +53,10 @@ public abstract class EntityLiving
 		return status;
 	}
 	
-	public final void setStatus(EntityStatus status) 
+	public final EntityLiving setStatus(EntityStatus status) 
 	{
 		this.status = status;
+		return this;
 	}
 	
 	public final int getHunger() 
@@ -43,13 +69,55 @@ public abstract class EntityLiving
 		return maxHunger;
 	}
 	
-	public final void setHunger(int hunger) 
+	public final EntityLiving setHunger(int hunger) 
 	{
-		this.hunger = hunger;
+		if(hunger <= getMaxHunger())
+		{
+			this.hunger = hunger;
+		}
+		else
+		{
+			this.hunger = getMaxHunger();
+		}
+		return this;
 	}
 	
-	public final void setMaxHunger(int maxHunger) 
+	public final EntityLiving setMaxHunger(int maxHunger) 
 	{
 		this.maxHunger = maxHunger;
+		return this;
+	}
+	
+	@Override
+	public final int hashCode() 
+	{
+		return id;
+	}
+	
+	@Override
+	public String toString() 
+	{
+		return getName() + "." + getStatus();
+	}
+	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if((obj.hashCode() == hashCode()) && (obj instanceof EntityLiving))
+		{
+			EntityLiving entity = (EntityLiving) obj;
+			if((entity.getHunger() == getHunger()) && (entity.getMaxHunger() == getMaxHunger()) && (entity.getStatus() == getStatus()))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

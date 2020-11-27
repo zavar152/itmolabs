@@ -8,54 +8,115 @@ import itmo.zavar.lab3.item.Container;
 import itmo.zavar.lab3.item.Item;
 import itmo.zavar.lab3.util.Size;
 
-public class Porch implements Container
+public final class Porch implements Container
 {
 	private Size size;
 	private EntityLiving entity;
 	private ArrayList<Item> inventory = new ArrayList<Item>();
-
-	public Porch(Size size) 
+	private int id;
+	
+	public Porch(int id, Size size) 
 	{
 		this.size = size;
+		this.id = id;
+		addItem(null);
+		addItem(null);
 	}
 
-	public final Size getSize() 
+	public Size getSize() 
 	{
 		return size;
 	}
 	
-	public final void join(EntityLiving entity)  
+	public void join(EntityLiving entity)  
 	{
 		this.entity = entity;
-		this.entity.setStatus(EntityStatus.SITTING);
+		entity.setStatus(EntityStatus.SITTING);
 	}
 	
-	public final void leave()
+	public void leave()
 	{
-		this.entity.setStatus(EntityStatus.DEFAULT);
-		this.entity = null;
+		entity.setStatus(EntityStatus.DEFAULT);
+		entity = null;
+	}
+	
+	public boolean isBusy()
+	{
+		if(entity == null)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	
 	@Override
-	public final void addItem(Item item) 
+	public void setItem(int index, Item item) 
+	{
+		inventory.set(index, item);
+	}
+	
+	@Override
+	public void removeItem(int index) 
+	{
+		inventory.remove(index);
+	}
+	
+	@Override
+	public void addItem(Item item) 
 	{
 		inventory.add(item);
 	}
 
 	@Override
-	public final Item getItem(int index) 
+	public Item getItem(int index) 
 	{
 		return inventory.get(index);
 	}
 
 	@Override
-	public final int contSize() 
+	public int contSize() 
 	{
 		return inventory.size();
 	}
 	
-	public final boolean isEmpty() 
+	public boolean isEmpty() 
 	{
 		return inventory.isEmpty();
+	}
+	
+	@Override
+	public int hashCode() 
+	{
+		return id;
+	}
+	
+	@Override
+	public String toString() 
+	{
+		return "Porch." + hashCode() + ".s" + getSize();
+	}
+	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if(obj instanceof Porch)
+		{
+			Porch porch = (Porch) obj;
+			if((porch.getSize() == getSize()) && (porch.contSize() == contSize()) && (porch.isBusy() == isBusy()))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

@@ -37,11 +37,11 @@ public final class Juice extends Item implements Drinkable
 	@Override
 	public void takeSip() 
 	{
-		if(volume != 0)
+		if(!empty)
 		{
 			volume--;
 		}
-		else
+		if(volume == 0)
 		{
 			empty = true;
 		}

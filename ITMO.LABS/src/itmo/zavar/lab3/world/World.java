@@ -40,6 +40,11 @@ public class World
 		houses.add(house);
 	}
 	
+	public int getHousesCount()
+	{
+		return houses.size();
+	}
+	
 	public final Sky getSky() 
 	{
 		return sky;
@@ -66,5 +71,38 @@ public class World
 	public String toString() 
 	{
 		return "World." + hashCode() + "." + getMainStar().toString() + "." + getSky().toString() + "." + houses.toString();
+	}
+	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if(obj instanceof World)
+		{
+			World world = (World) obj;
+			if(world.getMainStar().equals(getMainStar()) && world.getSky().equals(getSky()) && world.getTime() == getTime())
+			{
+				House[] houses1 = new House[world.getHousesCount()];
+				House[] houses2 = new House[getHousesCount()];
+				
+				for(int i = 0; i < houses1.length; i++)
+				{
+					houses1[i] = world.getHouse(i);
+				}
+				for(int i = 0; i < houses2.length; i++)
+				{
+					houses2[i] = getHouse(i);
+				}
+				
+				return Arrays.equals(houses1, houses2);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

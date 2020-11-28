@@ -102,7 +102,7 @@ public class Launcher
 						say("Какое красивое " + sun.getName() + "!");
 						try 
 						{
-							Thread.sleep(100);
+							Thread.sleep(1000);
 						}
 						catch (InterruptedException e) 
 						{
@@ -123,7 +123,7 @@ public class Launcher
 						say("Какая красивая " + sky.getStar(star).getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + sky.getStar(star).getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " звезда на небе");
 						try 
 						{
-							Thread.sleep(100);
+							Thread.sleep(1000);
 						} 
 						catch (InterruptedException e) 
 						{
@@ -260,13 +260,13 @@ public class Launcher
 			if(ostermalm.getHouse(0).getTemp() >= 25)
 			{
 				carlson.say("Жарко в домике, буду спать на крылечке.");
-				carlson.sleep(700);
+				carlson.sleep(7000);
 			}
 			else
 			{
 				carlson.say("В домике хорошо, буду спать в нём.");
 				ostermalm.getHouse(0).getPorch().leave();
-				carlson.sleep(700);
+				carlson.sleep(7000);
 			}
 		}
 	}
@@ -287,7 +287,7 @@ public class Launcher
 	{
 		try 
 		{
-			Thread.sleep(time/10);
+			Thread.sleep(time);
 		} 
 		catch (InterruptedException e) 
 		{

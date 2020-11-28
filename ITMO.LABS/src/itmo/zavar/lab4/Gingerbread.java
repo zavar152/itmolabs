@@ -1,8 +1,8 @@
-package itmo.zavar.lab3;
+package itmo.zavar.lab4;
 
-import itmo.zavar.lab3.item.Eatable;
-import itmo.zavar.lab3.item.Item;
-import itmo.zavar.lab3.util.Size;
+import itmo.zavar.lab4.item.Eatable;
+import itmo.zavar.lab4.item.Item;
+import itmo.zavar.lab4.util.Size;
 
 public final class Gingerbread extends Item implements Eatable
 {

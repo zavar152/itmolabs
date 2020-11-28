@@ -13,14 +13,14 @@ public final class Porch implements Container
 	private Size size;
 	private EntityLiving entity;
 	private ArrayList<Item> inventory = new ArrayList<Item>();
-	private int id;
 	
-	public Porch(int id, Size size) 
+	public Porch(Size size, int cont) 
 	{
 		this.size = size;
-		this.id = id;
-		addItem(null);
-		addItem(null);
+		for(int i = 0; i < cont; i++)
+		{
+			addItem(null);
+		}
 	}
 
 	public Size getSize() 
@@ -90,7 +90,7 @@ public final class Porch implements Container
 	@Override
 	public int hashCode() 
 	{
-		return id;
+		return (getSize().ordinal() + 1) * contSize();
 	}
 	
 	@Override
@@ -102,7 +102,7 @@ public final class Porch implements Container
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if(obj instanceof Porch)
+		if((obj.hashCode() == hashCode()) && (obj instanceof Porch))
 		{
 			Porch porch = (Porch) obj;
 			if((porch.getSize() == getSize()) && (porch.contSize() == contSize()) && (porch.isBusy() == isBusy()))

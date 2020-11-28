@@ -1,7 +1,7 @@
-package itmo.zavar.lab3.world.sky;
+package itmo.zavar.lab4.world.sky;
 
-import itmo.zavar.lab3.util.Color;
-import itmo.zavar.lab3.util.Size;
+import itmo.zavar.lab4.util.Color;
+import itmo.zavar.lab4.util.Size;
 
 public class Star 
 {

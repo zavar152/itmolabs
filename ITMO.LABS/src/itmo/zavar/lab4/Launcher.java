@@ -1,18 +1,19 @@
-package itmo.zavar.lab3;
+package itmo.zavar.lab4;
 
-import itmo.zavar.lab3.entity.EntityLiving;
-import itmo.zavar.lab3.entity.EntityStatus;
-import itmo.zavar.lab3.item.Drinkable;
-import itmo.zavar.lab3.item.Eatable;
-import itmo.zavar.lab3.util.Color;
-import itmo.zavar.lab3.util.Size;
-import itmo.zavar.lab3.world.Time;
-import itmo.zavar.lab3.world.World;
-import itmo.zavar.lab3.world.house.House;
-import itmo.zavar.lab3.world.house.Porch;
-import itmo.zavar.lab3.world.sky.MainStar;
-import itmo.zavar.lab3.world.sky.Sky;
-import itmo.zavar.lab3.world.sky.Star;
+import itmo.zavar.lab4.entity.EntityLiving;
+import itmo.zavar.lab4.entity.EntityStatus;
+import itmo.zavar.lab4.exception.StatusException;
+import itmo.zavar.lab4.item.Drinkable;
+import itmo.zavar.lab4.item.Eatable;
+import itmo.zavar.lab4.util.Color;
+import itmo.zavar.lab4.util.Size;
+import itmo.zavar.lab4.util.Util;
+import itmo.zavar.lab4.world.Time;
+import itmo.zavar.lab4.world.World;
+import itmo.zavar.lab4.world.house.House;
+import itmo.zavar.lab4.world.sky.MainStar;
+import itmo.zavar.lab4.world.sky.Sky;
+import itmo.zavar.lab4.world.sky.Star;
 
 public class Launcher 
 {
@@ -21,8 +22,13 @@ public class Launcher
 		EntityLiving carlson = new EntityLiving(20, "Карлсон") {
 			
 			@Override
-			public void sleep(int time) 
+			public void sleep(int time) throws StatusException 
 			{
+				if(getStatus() != EntityStatus.DEFAULT && getStatus() != EntityStatus.SITTING)
+				{
+					throw new StatusException(EntityStatus.DEFAULT, EntityStatus.SITTING);
+				}
+				
 				if(getStatus() == EntityStatus.DEFAULT || getStatus() == EntityStatus.SITTING)
 				{
 					say("Я спать!");
@@ -43,8 +49,13 @@ public class Launcher
 			}
 			
 			@Override
-			public void eat(Eatable eat) 
+			public void eat(Eatable eat) throws StatusException 
 			{
+				if(getStatus() != EntityStatus.SITTING)
+				{
+					throw new StatusException(EntityStatus.SITTING);
+				}
+				
 				if((getStatus() == EntityStatus.SITTING) && (getHunger() < getMaxHunger()))
 				{
 					setStatus(EntityStatus.EATING);
@@ -60,8 +71,13 @@ public class Launcher
 			}
 			
 			@Override
-			public void drink(Drinkable drink) 
+			public void drink(Drinkable drink) throws StatusException 
 			{
+				if(getStatus() != EntityStatus.SITTING)
+				{
+					throw new StatusException(EntityStatus.SITTING);
+				}
+				
 				if((getStatus() == EntityStatus.SITTING) && (getHunger() < getMaxHunger()))
 				{
 					setStatus(EntityStatus.DRINKING);
@@ -77,8 +93,13 @@ public class Launcher
 			}
 
 			@Override
-			public void awake()
+			public void awake() throws StatusException
 			{
+				if(getStatus() != EntityStatus.SLEEPING)
+				{
+					throw new StatusException(EntityStatus.SLEEPING);
+				}
+				
 				if(getStatus() == EntityStatus.SLEEPING)
 				{
 					setStatus(EntityStatus.AWAKENING);
@@ -172,7 +193,7 @@ public class Launcher
 		
 		System.out.println();
 		
-		House carlsonHouse = new House(Size.SMALL, 25, new Porch(Size.LITTLE, 2), Color.GREEN);
+		House carlsonHouse = new House(Size.SMALL, 25, Size.LITTLE, 2, Color.GREEN);
 		
 		System.out.println(carlsonHouse.toString());
 		
@@ -185,9 +206,9 @@ public class Launcher
 		for(int i = 1; i < houses.length; i++)
 		{
 			int size = (int)(Math.random()*5);
-			int temp = (int) ((Math.random()*11) + 20);
+			int temp = Util.random(15, 25);
 			int color = (int)(Math.random()*9);
-			houses[i] = new House(Size.values()[size], temp, new Porch(Size.values()[(int)(Math.random()*3)], 2), Color.values()[color]);
+			houses[i] = new House(Size.values()[size], temp, Size.values()[(int)(Math.random()*4)], 2, Color.values()[color]);
 			System.out.println(houses[i].toString());
 		}
 		
@@ -197,8 +218,8 @@ public class Launcher
 		
 		System.out.println(ostermalm.toString());
 		
-		fillGinger(ostermalm.getHouse(0).getPorch());
-		fillJuice(ostermalm.getHouse(0).getPorch());
+		Util.Filler.fillGinger(ostermalm.getHouse(0).getPorch());
+		Util.Filler.fillJuice(ostermalm.getHouse(0).getPorch());
 		
 		carlson.setStatus(EntityStatus.SLEEPING);
 		
@@ -206,58 +227,79 @@ public class Launcher
 		{
 			//утро
 			ostermalm.setTime(Time.MORNING);
-			carlson.awake();
+			try 
+			{
+				carlson.awake();
+			} 
+			catch (StatusException e) 
+			{
+				e.printStackTrace();
+			}
 			if(ostermalm.getHouse(0).getPorch().isBusy())
 			{
-				waiting(3000);
+				Util.waiting(3000);
 				carlson.lookAt(ostermalm.getMainStar());
 				ostermalm.getHouse(0).getPorch().leave();
 				carlson.say("Пойду в домик!");
 			}
 			else
 			{
-				waiting(3000);
+				Util.waiting(3000);
 				carlson.say("Хорошо спалось в домике!");
 			}
 			//день
 			carlson.setHunger((int)((Math.random()*carlson.getMaxHunger()) + 1));
 			System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
 			carlson.say("Эх, пойду на крыльцо!");
-			waiting(1500);
+			Util.waiting(1500);
 			ostermalm.getHouse(0).getPorch().join(carlson);
 			Gingerbread ginger = (Gingerbread) ostermalm.getHouse(0).getPorch().getItem(0);
 			Juice juice = (Juice) ostermalm.getHouse(0).getPorch().getItem(1);
 			
 			carlson.say("Поем пряников!");
-			waiting(2000);
+			Util.waiting(2000);
 			if(!ginger.isEaten())
 			{
 				carlson.say("Пряников осталось - " + ginger.getCount());
-				carlson.eat(ginger);
+				try 
+				{
+					carlson.eat(ginger);
+				} 
+				catch (StatusException e) 
+				{
+					e.printStackTrace();
+				}
 				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
 			}
 			else
 			{
 				carlson.say("Эх, пряники закончились, надо пополнить запасы");
-				fillGinger(ostermalm.getHouse(0).getPorch());
+				Util.Filler.fillGinger(ostermalm.getHouse(0).getPorch());
 				System.out.println("***запас пряников пополнен, пряников - " + ostermalm.getHouse(0).getPorch().getItem(0).getCount() + "***");
 			}
 			
 			carlson.say("Попью сок!");
-			waiting(2000);
+			Util.waiting(2000);
 			if(!juice.isEmpty())
 			{
 				carlson.say("Объём оставшегося сока - " + juice.getVolume());
-				carlson.drink(juice);
+				try 
+				{
+					carlson.drink(juice);
+				} 
+				catch (StatusException e) 
+				{
+					e.printStackTrace();
+				}
 				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
 			}
 			else
 			{
 				carlson.say("Эх, сок закончился, надо пополнить запасы");
-				fillJuice(ostermalm.getHouse(0).getPorch());
+				Util.Filler.fillJuice(ostermalm.getHouse(0).getPorch());
 				System.out.println("***запас сока пополнен, объём сока - " + ((Juice)ostermalm.getHouse(0).getPorch().getItem(1)).getVolume() + "***");
 			}
-			waiting(3000);
+			Util.waiting(3000);
 			//вечер
 			ostermalm.setTime(Time.EVENING);
 			carlson.say("Буду любоваться звёздами!");
@@ -265,45 +307,35 @@ public class Launcher
 			{
 				carlson.lookAt(ostermalm.getSky());
 			}
-			waiting(3000);
+			Util.waiting(3000);
 			//ночь
 			ostermalm.setTime(Time.NIGHT);
-			ostermalm.getHouse(0).setTemp((int) ((Math.random()*11) + 20));
-			if(ostermalm.getHouse(0).getTemp() >= 25)
+			ostermalm.getHouse(0).setTemp(Util.random(15, 25));
+			if(ostermalm.getHouse(0).getTemp() >= 20)
 			{
 				carlson.say("Жарко в домике, буду спать на крылечке.");
-				carlson.sleep(7000);
+				try 
+				{
+					carlson.sleep(7000);
+				} 
+				catch (StatusException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 			else
 			{
 				carlson.say("В домике хорошо, буду спать в нём.");
 				ostermalm.getHouse(0).getPorch().leave();
-				carlson.sleep(7000);
+				try 
+				{
+					carlson.sleep(7000);
+				} 
+				catch (StatusException e) 
+				{
+					e.printStackTrace();
+				}
 			}
-		}
-	}
-	
-	private static void fillGinger(Porch porch)
-	{
-		int size = (int)(Math.random()*5);
-		porch.setItem(0, new Gingerbread((int)((Math.random()*5) + 1), Size.values()[size], "ginger"));
-	}
-	
-	private static void fillJuice(Porch porch)
-	{
-		int color = (int)(Math.random()*9);
-		porch.setItem(1, new Juice((int)((Math.random()*9) + 1), Color.values()[color], "juice"));
-	}
-	
-	private static void waiting(long time)
-	{
-		try 
-		{
-			Thread.sleep(time);
-		} 
-		catch (InterruptedException e) 
-		{
-			e.printStackTrace();
 		}
 	}
 }

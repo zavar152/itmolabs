@@ -1,4 +1,4 @@
-package itmo.zavar.lab3.item;
+package itmo.zavar.lab4.item;
 
 public abstract class Item 
 {

@@ -1,20 +1,29 @@
-package itmo.zavar.lab3.world.sky;
+package itmo.zavar.lab4.world.sky;
 
-import itmo.zavar.lab3.util.Color;
-import itmo.zavar.lab3.util.Size;
+import itmo.zavar.lab4.exception.MainStarException;
+import itmo.zavar.lab4.util.Color;
+import itmo.zavar.lab4.util.Size;
 
 public final class MainStar extends Star
 {
 	private int pos;
 
-	public MainStar(Size size, Color color, int pos, String name) 
+	public MainStar(Size size, Color color, int pos, String name) throws MainStarException 
 	{
 		super(size, color, name);
+		if(pos < 0 || pos > 3)
+		{
+			throw new MainStarException(pos);
+		}
 		this.pos = pos;
 	}
 
-	public void setPosition(int pos) 
+	public void setPosition(int pos) throws MainStarException 
 	{
+		if(pos < 0 || pos > 3)
+		{
+			throw new MainStarException(pos);
+		}
 		this.pos = pos;
 	}
 	

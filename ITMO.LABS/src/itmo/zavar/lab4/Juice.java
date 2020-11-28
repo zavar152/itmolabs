@@ -1,8 +1,8 @@
-package itmo.zavar.lab3;
+package itmo.zavar.lab4;
 
-import itmo.zavar.lab3.item.Drinkable;
-import itmo.zavar.lab3.item.Item;
-import itmo.zavar.lab3.util.Color;
+import itmo.zavar.lab4.item.Drinkable;
+import itmo.zavar.lab4.item.Item;
+import itmo.zavar.lab4.util.Color;
 
 public final class Juice extends Item implements Drinkable
 {

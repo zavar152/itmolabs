@@ -1,12 +1,12 @@
-package itmo.zavar.lab3.world;
+package itmo.zavar.lab4.world;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import itmo.zavar.lab3.world.house.House;
-import itmo.zavar.lab3.world.sky.MainStar;
-import itmo.zavar.lab3.world.sky.Sky;
+import itmo.zavar.lab4.world.house.House;
+import itmo.zavar.lab4.world.sky.MainStar;
+import itmo.zavar.lab4.world.sky.Sky;
 
 public class World 
 {

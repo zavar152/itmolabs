@@ -9,14 +9,12 @@ public final class House
 	private int temp;
 	private Porch porch;
 	private Color shuttersColor;
-	private int id;
 
-	public House(int id, Size size, int temp, Porch porch, Color color) 
+	public House(Size size, int temp, Porch porch, Color color) 
 	{
 		this.size = size;
 		this.temp = temp;
 		this.porch = porch;
-		this.id = id;
 		shuttersColor = color;
 	}
 	
@@ -48,7 +46,7 @@ public final class House
 	@Override
 	public int hashCode() 
 	{
-		return id;
+		return (getSize().ordinal() + 1) + (getShuttersColor().ordinal() + 1);
 	}
 	
 	@Override
@@ -60,7 +58,7 @@ public final class House
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if(obj instanceof House)
+		if((obj.hashCode() == hashCode()) && (obj instanceof House))
 		{
 			House house = (House) obj;
 			if((house.getPorch().equals(getPorch())) && (house.getShuttersColor() == getShuttersColor()) && (house.getSize() == getSize() && (house.getTemp() == getTemp())))

@@ -1,7 +1,8 @@
-package itmo.zavar.lab3.entity;
+package itmo.zavar.lab4.entity;
 
-import itmo.zavar.lab3.item.Drinkable;
-import itmo.zavar.lab3.item.Eatable;
+import itmo.zavar.lab4.exception.StatusException;
+import itmo.zavar.lab4.item.Drinkable;
+import itmo.zavar.lab4.item.Eatable;
 
 public abstract class EntityLiving 
 {
@@ -10,13 +11,13 @@ public abstract class EntityLiving
 	private int maxHunger = -1;
 	private int hunger = -1;
 	
-	public abstract void drink(Drinkable drink);
+	public abstract void drink(Drinkable drink) throws StatusException;
 
-	public abstract void eat(Eatable eat);
+	public abstract void eat(Eatable eat) throws StatusException;
 	
-	public abstract void sleep(int time);
+	public abstract void sleep(int time) throws StatusException;
 	
-	public abstract void awake();
+	public abstract void awake() throws StatusException;
 	
 	public abstract void lookAt(Object obj);
 	

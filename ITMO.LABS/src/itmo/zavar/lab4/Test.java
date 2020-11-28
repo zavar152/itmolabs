@@ -1,9 +1,9 @@
-package itmo.zavar.lab3;
+package itmo.zavar.lab4;
 
-import itmo.zavar.lab3.util.Color;
-import itmo.zavar.lab3.util.Size;
-import itmo.zavar.lab3.world.sky.Sky;
-import itmo.zavar.lab3.world.sky.Star;
+import itmo.zavar.lab4.util.Color;
+import itmo.zavar.lab4.util.Size;
+import itmo.zavar.lab4.world.sky.Sky;
+import itmo.zavar.lab4.world.sky.Star;
 
 public class Test {
 

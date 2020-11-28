@@ -1,4 +1,4 @@
-package itmo.zavar.lab3.world.sky;
+package itmo.zavar.lab4.world.sky;
 
 import java.util.Arrays;
 

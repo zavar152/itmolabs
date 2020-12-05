@@ -146,8 +146,6 @@ public class Launcher
 			}
 		};
 		
-
-		
 		MainStar sun = new MainStar(Size.LARGE, Color.YELLOW, 0, "Солнце");
 		
 		System.out.println(sun.toString());
@@ -172,7 +170,7 @@ public class Launcher
 		
 		System.out.println();
 		
-		House carlsonHouse = new House(Size.SMALL, 25, new Porch(Size.LITTLE, 2), Color.GREEN);
+		House carlsonHouse = new House(Size.SMALL, 25, new Porch(Size.LITTLE, 6), Color.GREEN);
 		
 		System.out.println(carlsonHouse.toString());
 		
@@ -202,6 +200,9 @@ public class Launcher
 		
 		carlson.setStatus(EntityStatus.SLEEPING);
 		
+		int gIndex = 0;
+		int jIndex = 0;
+		
 		while(true)
 		{
 			//утро
@@ -225,38 +226,60 @@ public class Launcher
 			carlson.say("Эх, пойду на крыльцо!");
 			waiting(1500);
 			ostermalm.getHouse(0).getPorch().join(carlson);
-			Gingerbread ginger = (Gingerbread) ostermalm.getHouse(0).getPorch().getItem(0);
-			Juice juice = (Juice) ostermalm.getHouse(0).getPorch().getItem(1);
+			
+			Gingerbread[] ginger = new Gingerbread[3]; //= (Gingerbread) ostermalm.getHouse(0).getPorch().getItem(0);
+			Juice[] juice = new Juice[3]; //= (Juice) ostermalm.getHouse(0).getPorch().getItem(1);
+			
+			for(int i = 0; i < 3; i++)
+			{
+				ginger[i] = (Gingerbread) ostermalm.getHouse(0).getPorch().getItem(i);
+				juice[i] = (Juice) ostermalm.getHouse(0).getPorch().getItem(i + 3);
+			}
 			
 			carlson.say("Поем пряников!");
 			waiting(2000);
-			if(!ginger.isEaten())
+			if(ginger[gIndex].isEaten())
 			{
-				carlson.say("Пряников осталось - " + ginger.getCount());
-				carlson.eat(ginger);
-				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
+				//System.out.println("***nextG***");
+				gIndex++;
 			}
-			else
+			if(3 == gIndex)
 			{
 				carlson.say("Эх, пряники закончились, надо пополнить запасы");
 				fillGinger(ostermalm.getHouse(0).getPorch());
-				System.out.println("***запас пряников пополнен, пряников - " + ostermalm.getHouse(0).getPorch().getItem(0).getCount() + "***");
+				System.out.println("***запас пряников пополнен***");
+				gIndex = 0;
+			}
+			else
+			{
+				carlson.say("Масса пряника в у.е = " + ginger[gIndex].getBites());
+				carlson.eat(ginger[gIndex]);
+				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
+				carlson.say("Масса пряника в у.е = " + ginger[gIndex].getBites());
 			}
 			
 			carlson.say("Попью сок!");
 			waiting(2000);
-			if(!juice.isEmpty())
+			if(juice[jIndex].isEmpty())
 			{
-				carlson.say("Объём оставшегося сока - " + juice.getVolume());
-				carlson.drink(juice);
-				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
+				//System.out.println("***nextJ***");
+				jIndex++;
 			}
-			else
+			if(3 == jIndex)
 			{
 				carlson.say("Эх, сок закончился, надо пополнить запасы");
 				fillJuice(ostermalm.getHouse(0).getPorch());
-				System.out.println("***запас сока пополнен, объём сока - " + ((Juice)ostermalm.getHouse(0).getPorch().getItem(1)).getVolume() + "***");
+				System.out.println("***запас сока пополнен***");
+				jIndex = 0;
 			}
+			else
+			{
+				carlson.say("Объём оставшегося сока - " + juice[jIndex].getVolume());
+				carlson.drink(juice[jIndex]);
+				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
+				carlson.say("Объём оставшегося сока - " + juice[jIndex].getVolume());
+			}
+			
 			waiting(3000);
 			//вечер
 			ostermalm.setTime(Time.EVENING);
@@ -286,13 +309,17 @@ public class Launcher
 	private static void fillGinger(Porch porch)
 	{
 		int size = (int)(Math.random()*5);
-		porch.setItem(0, new Gingerbread((int)((Math.random()*5) + 1), Size.values()[size], "ginger"));
+		porch.setItem(0, new Gingerbread(Size.values()[size], "ginger0", (int)((Math.random()*5) + 1)));
+		porch.setItem(1, new Gingerbread(Size.values()[size], "ginger1", (int)((Math.random()*5) + 1)));
+		porch.setItem(2, new Gingerbread(Size.values()[size], "ginger2", (int)((Math.random()*5) + 1)));
 	}
 	
 	private static void fillJuice(Porch porch)
 	{
 		int color = (int)(Math.random()*9);
-		porch.setItem(1, new Juice((int)((Math.random()*9) + 1), Color.values()[color], "juice"));
+		porch.setItem(3, new Juice((int)((Math.random()*9) + 1), Color.values()[color], "juice3"));
+		porch.setItem(4, new Juice((int)((Math.random()*9) + 1), Color.values()[color], "juice4"));
+		porch.setItem(5, new Juice((int)((Math.random()*9) + 1), Color.values()[color], "juice5"));
 	}
 	
 	private static void waiting(long time)

@@ -80,21 +80,27 @@ public abstract class EntityLiving
 	}
 	
 	@Override
-	public final int hashCode() 
-	{
-		return custom_name.length() + maxHunger;
-	}
-	
-	@Override
 	public String toString() 
 	{
 		return getName() + "." + getStatus();
 	}
 	
 	@Override
+	public int hashCode() 
+	{
+		final int seed = 30;
+		int hash = 1;
+		hash = seed * hash + ((!custom_name.isEmpty()) ? 0 : custom_name.hashCode());
+		hash = seed * hash + hunger;
+		hash = seed * hash + maxHunger;
+		hash = seed * hash + status.hashCode();
+		return hash;
+	}
+	
+	@Override
 	public boolean equals(Object obj) 
 	{
-		if((obj.hashCode() == hashCode()) && (obj instanceof EntityLiving))
+		if(obj instanceof EntityLiving)
 		{
 			EntityLiving entity = (EntityLiving) obj;
 			if((entity.getHunger() == getHunger()) && (entity.getMaxHunger() == getMaxHunger()) && (entity.getStatus() == getStatus()))

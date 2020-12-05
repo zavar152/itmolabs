@@ -46,7 +46,13 @@ public final class House
 	@Override
 	public int hashCode() 
 	{
-		return (getSize().ordinal() + 1) + (getShuttersColor().ordinal() + 1);
+		final int seed = 30;
+		int hash = 1;
+		hash = seed * hash + porch.hashCode();
+		hash = seed * hash + shuttersColor.hashCode();
+		hash = seed * hash + size.hashCode();
+		hash = seed * hash + temp;
+		return hash;
 	}
 	
 	@Override
@@ -58,10 +64,10 @@ public final class House
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if((obj.hashCode() == hashCode()) && (obj instanceof House))
+		if(obj instanceof House)
 		{
 			House house = (House) obj;
-			if((house.getPorch().equals(getPorch())) && (house.getShuttersColor() == getShuttersColor()) && (house.getSize() == getSize() && (house.getTemp() == getTemp())))
+			if((house.porch.equals(porch)) && (house.shuttersColor == shuttersColor) && (house.size == size) && (house.temp == temp))
 			{
 				return true;
 			}

@@ -193,7 +193,7 @@ public class Launcher
 		
 		System.out.println();
 		
-		House carlsonHouse = new House(Size.SMALL, 25, Size.LITTLE, 2, Color.GREEN);
+		House carlsonHouse = new House(Size.SMALL, 25, Size.LITTLE, 6, Color.GREEN);
 		
 		System.out.println(carlsonHouse.toString());
 		
@@ -222,6 +222,9 @@ public class Launcher
 		Util.Filler.fillJuice(ostermalm.getHouse(0).getPorch());
 		
 		carlson.setStatus(EntityStatus.SLEEPING);
+		
+		int gIndex = 0;
+		int jIndex = 0;
 		
 		while(true)
 		{
@@ -253,52 +256,75 @@ public class Launcher
 			carlson.say("Эх, пойду на крыльцо!");
 			Util.waiting(1500);
 			ostermalm.getHouse(0).getPorch().join(carlson);
-			Gingerbread ginger = (Gingerbread) ostermalm.getHouse(0).getPorch().getItem(0);
-			Juice juice = (Juice) ostermalm.getHouse(0).getPorch().getItem(1);
+			
+			Gingerbread[] ginger = new Gingerbread[3]; //= (Gingerbread) ostermalm.getHouse(0).getPorch().getItem(0);
+			Juice[] juice = new Juice[3]; //= (Juice) ostermalm.getHouse(0).getPorch().getItem(1);
+			
+			for(int i = 0; i < 3; i++)
+			{
+				ginger[i] = (Gingerbread) ostermalm.getHouse(0).getPorch().getItem(i);
+				juice[i] = (Juice) ostermalm.getHouse(0).getPorch().getItem(i + 3);
+			}
 			
 			carlson.say("Поем пряников!");
 			Util.waiting(2000);
-			if(!ginger.isEaten())
+
+			if(ginger[gIndex].isEaten())
 			{
-				carlson.say("Пряников осталось - " + ginger.getCount());
+				//System.out.println("***nextG***");
+				gIndex++;
+			}
+			if(3 == gIndex)
+			{
+				carlson.say("Эх, пряники закончились, надо пополнить запасы");
+				Util.Filler.fillGinger(ostermalm.getHouse(0).getPorch());
+				System.out.println("***запас пряников пополнен***");
+				gIndex = 0;
+			}
+			else
+			{
+				carlson.say("Масса пряника в у.е = " + ginger[gIndex].getBites());
 				try 
 				{
-					carlson.eat(ginger);
+					carlson.eat(ginger[gIndex]);
 				} 
 				catch (StatusException e) 
 				{
 					e.printStackTrace();
 				}
 				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
-			}
-			else
-			{
-				carlson.say("Эх, пряники закончились, надо пополнить запасы");
-				Util.Filler.fillGinger(ostermalm.getHouse(0).getPorch());
-				System.out.println("***запас пряников пополнен, пряников - " + ostermalm.getHouse(0).getPorch().getItem(0).getCount() + "***");
+				carlson.say("Масса пряника в у.е = " + ginger[gIndex].getBites());
 			}
 			
 			carlson.say("Попью сок!");
 			Util.waiting(2000);
-			if(!juice.isEmpty())
+			if(juice[jIndex].isEmpty())
 			{
-				carlson.say("Объём оставшегося сока - " + juice.getVolume());
+				//System.out.println("***nextJ***");
+				jIndex++;
+			}
+			if(3 == jIndex)
+			{
+				carlson.say("Эх, сок закончился, надо пополнить запасы");
+				Util.Filler.fillJuice(ostermalm.getHouse(0).getPorch());
+				System.out.println("***запас сока пополнен***");
+				jIndex = 0;
+			}
+			else
+			{
+				carlson.say("Объём оставшегося сока - " + juice[jIndex].getVolume());
 				try 
 				{
-					carlson.drink(juice);
+					carlson.drink(juice[jIndex]);
 				} 
 				catch (StatusException e) 
 				{
 					e.printStackTrace();
 				}
 				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
+				carlson.say("Объём оставшегося сока - " + juice[jIndex].getVolume());
 			}
-			else
-			{
-				carlson.say("Эх, сок закончился, надо пополнить запасы");
-				Util.Filler.fillJuice(ostermalm.getHouse(0).getPorch());
-				System.out.println("***запас сока пополнен, объём сока - " + ((Juice)ostermalm.getHouse(0).getPorch().getItem(1)).getVolume() + "***");
-			}
+			
 			Util.waiting(3000);
 			//вечер
 			ostermalm.setTime(Time.EVENING);

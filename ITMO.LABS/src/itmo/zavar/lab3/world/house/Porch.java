@@ -90,7 +90,12 @@ public final class Porch implements Container
 	@Override
 	public int hashCode() 
 	{
-		return (getSize().ordinal() + 1) * contSize();
+		final int seed = 30;
+		int hash = 1;
+		hash = seed * hash + ((entity == null) ? 0 : entity.hashCode());
+		hash = seed * hash + inventory.hashCode();
+		hash = seed * hash + size.hashCode();
+		return hash;
 	}
 	
 	@Override
@@ -102,10 +107,10 @@ public final class Porch implements Container
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if((obj.hashCode() == hashCode()) && (obj instanceof Porch))
+		if(obj instanceof Porch)
 		{
 			Porch porch = (Porch) obj;
-			if((porch.getSize() == getSize()) && (porch.contSize() == contSize()) && (porch.isBusy() == isBusy()))
+			if((porch.size == size) && (porch.inventory.size() == inventory.size()) && (porch.isBusy() == isBusy()))
 			{
 				return true;
 			}

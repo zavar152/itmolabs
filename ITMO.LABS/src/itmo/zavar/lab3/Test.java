@@ -1,18 +1,19 @@
 package itmo.zavar.lab3;
 
-import itmo.zavar.lab3.util.Color;
-import itmo.zavar.lab3.util.Size;
-import itmo.zavar.lab3.world.sky.Sky;
-import itmo.zavar.lab3.world.sky.Star;
+import java.util.ArrayList;
+
+import itmo.zavar.lab4.item.Item;
 
 public class Test {
 
 	public static void main(String[] args) 
 	{	
-		Sky sky1 = new Sky(new Star(Size.BIG, Color.YELLOW, ""), new Star(Size.BIG, Color.GREEN, ""));
-		Sky sky2 = new Sky(new Star(Size.SMALL, Color.YELLOW, ""), new Star(Size.BIG, Color.GREEN, ""));
+		//Sky sky1 = new Sky(new Star(Size.BIG, Color.YELLOW, ""), new Star(Size.BIG, Color.GREEN, ""));
+		//Sky sky2 = new Sky(new Star(Size.SMALL, Color.YELLOW, ""), new StArrayList<E>IG, Color.GREEN, ""));
+		ArrayList<Item> inventory = new ArrayList<Item>(4);
 		
-		System.out.println(sky2.equals(sky1));
+		//System.out.println(inventory.get());
+		//System.out.println(sky2.equals(sky1));
 		
 		//Gingerbread g = new Gingerbread(3, Size.LITTLE);
 		

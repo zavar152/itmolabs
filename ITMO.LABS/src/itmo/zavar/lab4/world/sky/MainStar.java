@@ -41,10 +41,10 @@ public final class MainStar extends Star
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if((obj.hashCode() == hashCode()) && (obj instanceof MainStar))
+		if(obj instanceof MainStar)
 		{
 			MainStar sun = (MainStar) obj;
-			if((sun.getPosition() == getPosition()) && super.equals(obj))
+			if(super.equals(sun) && (sun.pos == pos))
 			{
 				return true;
 			}

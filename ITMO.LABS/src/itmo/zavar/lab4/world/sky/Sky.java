@@ -22,9 +22,12 @@ public class Sky
 	}
 	
 	@Override
-	public final int hashCode() 
+	public int hashCode() 
 	{
-		return getStarCount() + getStar(0).hashCode();
+		final int seed = 30;
+		int hash = 1;
+		hash = seed * hash + Arrays.hashCode(stars);
+		return hash;
 	}
 	
 	@Override
@@ -34,24 +37,19 @@ public class Sky
 	}
 	
 	@Override
-	public boolean equals(Object obj) 
+	public boolean equals(Object obj)  
 	{
-		if((obj.hashCode() == hashCode()) && (obj instanceof Sky))
+		if(obj instanceof Sky)
 		{
 			Sky sky = (Sky) obj;
-			Star[] stars1 = new Star[sky.getStarCount()];
-			Star[] stars2 = new Star[getStarCount()];
-			
-			for(int i = 0; i < stars1.length; i++)
+			if(Arrays.equals(sky.stars, stars))
 			{
-				stars1[i] = sky.getStar(i);
+				return true;
 			}
-			for(int i = 0; i < stars2.length; i++)
+			else
 			{
-				stars2[i] = getStar(i);
+				return false;
 			}
-			
-			return Arrays.equals(stars1, stars2);
 		}
 		else
 		{

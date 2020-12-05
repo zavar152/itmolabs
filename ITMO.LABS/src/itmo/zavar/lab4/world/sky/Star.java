@@ -7,7 +7,7 @@ public class Star
 {
 	private Size size;
 	private Color color;
-	private String custom_name = "";
+	private String custom_name = null;
 
 	public Star(Size size, Color color, String name) 
 	{
@@ -41,7 +41,12 @@ public class Star
 	@Override
 	public final int hashCode() 
 	{
-		return (getColor().ordinal() + 1) + (getSize().ordinal() + 1);
+		final int seed = 30;
+		int hash = 1;
+		hash = seed * hash + color.hashCode();
+		hash = seed * hash + ((custom_name == null) ? 0 : custom_name.hashCode());
+		hash = seed * hash + size.hashCode();
+		return hash;
 	}
 	
 	@Override
@@ -53,10 +58,10 @@ public class Star
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if((obj.hashCode() == hashCode()) && (obj instanceof Star))
+		if(obj instanceof Star)
 		{
 			Star star = (Star) obj;
-			if((star.getColor() == getColor()) && (star.getSize() == getSize()))
+			if((star.color == color) && (star.size == size) && (star.custom_name.equals(custom_name)))
 			{
 				return true;
 			}

@@ -60,9 +60,15 @@ public class World
 	}
 	
 	@Override
-	public final int hashCode() 
+	public int hashCode() 
 	{
-		return getMainStar().hashCode() + getSky().hashCode() + getHouse(0).hashCode();
+		final int seed = 30;
+		int hash = 1;
+		hash = seed * hash + houses.hashCode();
+		hash = seed * hash + sky.hashCode();
+		hash = seed * hash + sun.hashCode();
+		hash = seed * hash + time.hashCode();
+		return hash;
 	}
 	
 	@Override
@@ -74,10 +80,10 @@ public class World
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if((obj.hashCode() == hashCode()) && (obj instanceof World))
+		if(obj instanceof World)
 		{
 			World world = (World) obj;
-			if(world.getMainStar().equals(getMainStar()) && world.getSky().equals(getSky()) && world.getTime() == getTime())
+			if(world.sun.equals(sun) && world.sky.equals(sky) && world.time == time)
 			{
 				House[] houses1 = new House[world.getHousesCount()];
 				House[] houses2 = new House[getHousesCount()];

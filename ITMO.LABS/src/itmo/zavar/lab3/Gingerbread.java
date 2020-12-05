@@ -8,12 +8,19 @@ public final class Gingerbread extends Item implements Eatable
 {
 	private boolean eaten = false;
 	private Size size;
+	private int bites;
 
-	public Gingerbread(int c, Size size, String name) 
+	public Gingerbread(Size size, String name, int bites) 
 	{
 		super(name);
-		setCount(c);
 		this.size = size;
+		this.bites = bites;
+	}
+	
+	@Override
+	public int getBites()
+	{
+		return bites;
 	}
 	
 	public Size getSize() 
@@ -24,7 +31,13 @@ public final class Gingerbread extends Item implements Eatable
 	@Override
 	public int hashCode() 
 	{
-		return (getSize().ordinal() + 1) + super.hashCode();
+		final int seed = 30;
+		int hash = 1;
+		hash = seed * hash + bites;
+		hash = seed * hash + (eaten ? 6020 : 1370);
+		hash = seed * hash + size.hashCode();
+		hash = seed * hash + super.hashCode();
+		return hash;
 	}
 	
 	@Override
@@ -38,9 +51,9 @@ public final class Gingerbread extends Item implements Eatable
 	{
 		if(!eaten)
 		{
-			setCount(getCount()-1);
+			bites--;
 		}
-		if(getCount() == 0)
+		if(bites == 0)
 		{
 			eaten = true;
 		}
@@ -49,16 +62,16 @@ public final class Gingerbread extends Item implements Eatable
 	@Override
 	public String toString() 
 	{
-		return "Gingerbread.c" + getCount() + "." + getSize();
+		return "Gingerbread."  + getSize();
 	}
 	
 	@Override
 	public boolean equals(Object obj) 
 	{
-		if((obj.hashCode() == hashCode()) && (obj instanceof Gingerbread))
+		if(obj instanceof Gingerbread)
 		{
 			Gingerbread ginger = (Gingerbread) obj;
-			if((ginger.getCount() == getCount()) && (ginger.getSize() == getSize()))
+			if(super.equals(ginger) && (ginger.size == size) && (ginger.bites == bites))
 			{
 				return true;
 			}

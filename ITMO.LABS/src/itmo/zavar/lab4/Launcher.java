@@ -6,6 +6,7 @@ import itmo.zavar.lab4.exception.StatusException;
 import itmo.zavar.lab4.item.Drinkable;
 import itmo.zavar.lab4.item.Eatable;
 import itmo.zavar.lab4.util.Color;
+import itmo.zavar.lab4.util.Randomizable;
 import itmo.zavar.lab4.util.Size;
 import itmo.zavar.lab4.util.Util;
 import itmo.zavar.lab4.world.Time;
@@ -20,6 +21,14 @@ public class Launcher
 	public static void main(String[] args) 
 	{
 		EntityLiving carlson = new EntityLiving(20, "Карлсон") {
+			
+			class Formatter
+			{
+				public String format(Star star)
+				{
+					return star.getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + star.getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " звезда на небе";
+				}
+			}
 			
 			@Override
 			public void sleep(int time) throws StatusException 
@@ -149,7 +158,7 @@ public class Launcher
 					if(getStatus() == EntityStatus.SITTING)
 					{
 						int star = (int)(Math.random()*sky.getStarCount());
-						say("Какая красивая " + sky.getStar(star).getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + sky.getStar(star).getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " звезда на небе");
+						say("Какая красивая " + new Formatter().format(sky.getStar(star)));
 						try 
 						{
 							Thread.sleep(1000);
@@ -167,7 +176,10 @@ public class Launcher
 			}
 		};
 		
-
+		Randomizable rand = (min, max) -> {
+			max -= min;
+			return (int) (Math.random() * ++max) + min;
+			};
 		
 		MainStar sun = new MainStar(Size.LARGE, Color.YELLOW, 0, "Солнце");
 		
@@ -206,7 +218,7 @@ public class Launcher
 		for(int i = 1; i < houses.length; i++)
 		{
 			int size = (int)(Math.random()*5);
-			int temp = Util.random(15, 25);
+			int temp = rand.random(15, 25);
 			int color = (int)(Math.random()*9);
 			houses[i] = new House(Size.values()[size], temp, Size.values()[(int)(Math.random()*4)], 2, Color.values()[color]);
 			System.out.println(houses[i].toString());
@@ -240,21 +252,21 @@ public class Launcher
 			}
 			if(ostermalm.getHouse(0).getPorch().isBusy())
 			{
-				Util.waiting(3000);
+				Util.delay(3000);
 				carlson.lookAt(ostermalm.getMainStar());
 				ostermalm.getHouse(0).getPorch().leave();
 				carlson.say("Пойду в домик!");
 			}
 			else
 			{
-				Util.waiting(3000);
+				Util.delay(3000);
 				carlson.say("Хорошо спалось в домике!");
 			}
 			//день
 			carlson.setHunger((int)((Math.random()*carlson.getMaxHunger()) + 1));
 			System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
 			carlson.say("Эх, пойду на крыльцо!");
-			Util.waiting(1500);
+			Util.delay(1500);
 			ostermalm.getHouse(0).getPorch().join(carlson);
 			
 			Gingerbread[] ginger = new Gingerbread[3]; //= (Gingerbread) ostermalm.getHouse(0).getPorch().getItem(0);
@@ -267,7 +279,7 @@ public class Launcher
 			}
 			
 			carlson.say("Поем пряников!");
-			Util.waiting(2000);
+			Util.delay(2000);
 
 			if(ginger[gIndex].isEaten())
 			{
@@ -297,7 +309,7 @@ public class Launcher
 			}
 			
 			carlson.say("Попью сок!");
-			Util.waiting(2000);
+			Util.delay(2000);
 			if(juice[jIndex].isEmpty())
 			{
 				//System.out.println("***nextJ***");
@@ -325,7 +337,7 @@ public class Launcher
 				carlson.say("Объём оставшегося сока - " + juice[jIndex].getVolume());
 			}
 			
-			Util.waiting(3000);
+			Util.delay(3000);
 			//вечер
 			ostermalm.setTime(Time.EVENING);
 			carlson.say("Буду любоваться звёздами!");
@@ -333,10 +345,10 @@ public class Launcher
 			{
 				carlson.lookAt(ostermalm.getSky());
 			}
-			Util.waiting(3000);
+			Util.delay(3000);
 			//ночь
 			ostermalm.setTime(Time.NIGHT);
-			ostermalm.getHouse(0).setTemp(Util.random(15, 25));
+			ostermalm.getHouse(0).setTemp(rand.random(15, 25));
 			if(ostermalm.getHouse(0).getTemp() >= 20)
 			{
 				carlson.say("Жарко в домике, буду спать на крылечке.");

@@ -25,7 +25,7 @@ public class Util
     	}
     }
     
-    public static void waiting(long time)
+    public static void delay(long time)
 	{
 		try 
 		{
@@ -35,11 +35,5 @@ public class Util
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	public static int random(int min, int max)
-	{
-		max -= min;
-		return (int) (Math.random() * ++max) + min;
 	}
 }

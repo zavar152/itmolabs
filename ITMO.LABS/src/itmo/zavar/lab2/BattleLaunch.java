@@ -27,11 +27,11 @@ public class BattleLaunch
 		A a = new B();
 		System.out.println(a.test);
 		System.out.println(a.testM());
-		System.out.println(a.testM2());
+		//System.out.println(a.testM2());
 		a = null;
 		//System.out.println(a.test);
 		//System.out.println(a.testM());
-		System.out.println(a.testM2());
+		//System.out.println(a.testM2());
 	}//2568
 }
 

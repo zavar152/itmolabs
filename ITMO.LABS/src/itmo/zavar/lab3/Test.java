@@ -1,16 +1,12 @@
 package itmo.zavar.lab3;
 
-import java.util.ArrayList;
-
-import itmo.zavar.lab4.item.Item;
-
 public class Test {
 
 	public static void main(String[] args) 
 	{	
 		//Sky sky1 = new Sky(new Star(Size.BIG, Color.YELLOW, ""), new Star(Size.BIG, Color.GREEN, ""));
 		//Sky sky2 = new Sky(new Star(Size.SMALL, Color.YELLOW, ""), new StArrayList<E>IG, Color.GREEN, ""));
-		ArrayList<Item> inventory = new ArrayList<Item>(4);
+		//ArrayList<Item> inventory = new ArrayList<Item>(4);
 		
 		//System.out.println(inventory.get());
 		//System.out.println(sky2.equals(sky1));

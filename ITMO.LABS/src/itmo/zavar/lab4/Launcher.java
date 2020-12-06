@@ -22,14 +22,6 @@ public class Launcher
 	{
 		EntityLiving carlson = new EntityLiving(20, "Карлсон") {
 			
-			class Formatter
-			{
-				public String format(Star star)
-				{
-					return star.getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + star.getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " звезда на небе";
-				}
-			}
-			
 			@Override
 			public void sleep(int time) throws StatusException 
 			{
@@ -132,6 +124,14 @@ public class Launcher
 			@Override
 			public void lookAt(Object obj) 
 			{
+				class Formatter
+				{
+					public String format(Star star)
+					{
+						return star.getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + star.getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " звезда на небе";
+					}
+				}
+				
 				if(obj instanceof MainStar)
 				{
 					MainStar sun = (MainStar) obj;

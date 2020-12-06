@@ -128,7 +128,7 @@ public class Launcher
 				{
 					public String format(Star star)
 					{
-						return star.getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + star.getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " звезда на небе";
+						return star.getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + star.getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase();
 					}
 				}
 				
@@ -158,7 +158,7 @@ public class Launcher
 					if(getStatus() == EntityStatus.SITTING)
 					{
 						int star = (int)(Math.random()*sky.getStarCount());
-						say("Какая красивая " + new Formatter().format(sky.getStar(star)));
+						say("Какая красивая " + new Formatter().format(sky.getStar(star)) + " звезда на небе");
 						try 
 						{
 							Thread.sleep(1000);

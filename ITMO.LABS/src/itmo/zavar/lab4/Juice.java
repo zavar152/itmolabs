@@ -9,17 +9,32 @@ public final class Juice extends Item implements Drinkable
 	private boolean empty = false;
 	private int volume;
 	private Color color;
+	private int saturation;
 	
-	public Juice(int volume, Color color, String name) 
+	public Juice(int volume, Color color, String name, int saturation) 
 	{
 		super(name);
 		this.volume = volume;
 		this.color = color;
+		if(volume <= 0)
+		{
+			empty = true;
+		}
+		if(saturation == 0)
+		{
+			this.saturation = 1;
+		}
 	}
 	
 	public Color getColor() 
 	{
 		return color;
+	}
+	
+	@Override
+	public int getSaturation() 
+	{
+		return saturation;
 	}
 	
 	@Override
@@ -62,7 +77,7 @@ public final class Juice extends Item implements Drinkable
 	@Override
 	public String toString() 
 	{
-		return "Juice.vol" + getVolume() + "." + getColor();
+		return "Juice.vol" + getVolume() + "." + getColor() + ".sat" + saturation;
 	}
 	
 	@Override

@@ -9,7 +9,8 @@ public abstract class EntityLiving
 	private String custom_name = "";
 	private EntityStatus status = EntityStatus.DEFAULT;
 	private int maxHunger = -1;
-	private int hunger = -1;
+	private int hunger = 0;
+	private boolean alive = true;
 	
 	public abstract void drink(Drinkable drink) throws StatusException;
 
@@ -72,11 +73,20 @@ public abstract class EntityLiving
 		{
 			this.hunger = hunger;
 		}
-		else
+		else if(hunger == getMaxHunger())
 		{
 			this.hunger = getMaxHunger();
 		}
+		if(hunger < 0)
+		{
+			alive = false;
+		}
 		return this;
+	}
+	
+	public final boolean isAlive()
+	{
+		return alive;
 	}
 	
 	@Override

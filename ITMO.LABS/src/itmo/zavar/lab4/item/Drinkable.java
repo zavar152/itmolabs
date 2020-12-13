@@ -7,4 +7,6 @@ public interface Drinkable
 	public void takeSip();
 	
 	public int getVolume();
+	
+	public int getSaturation();
 }

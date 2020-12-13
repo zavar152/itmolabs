@@ -1,5 +1,7 @@
 package itmo.zavar.lab4;
 
+import java.lang.reflect.InvocationTargetException;
+
 import itmo.zavar.lab4.entity.EntityLiving;
 import itmo.zavar.lab4.entity.EntityStatus;
 import itmo.zavar.lab4.exception.StatusException;
@@ -25,143 +27,18 @@ public class Launcher
 			@Override
 			public void sleep(int time) throws StatusException 
 			{
-				if(getStatus() != EntityStatus.DEFAULT && getStatus() != EntityStatus.SITTING)
-				{
-					throw new StatusException(EntityStatus.DEFAULT, EntityStatus.SITTING);
-				}
-				
-				if(getStatus() == EntityStatus.DEFAULT || getStatus() == EntityStatus.SITTING)
-				{
-					say("Я спать!");
-					setStatus(EntityStatus.SLEEPING);
-					try 
+					if(getStatus() != EntityStatus.DEFAULT && getStatus() != EntityStatus.SITTING)
 					{
-						Thread.sleep(time);
-					} 
-					catch (InterruptedException e) 
-					{
-						e.printStackTrace();
+						throw new StatusException(EntityStatus.DEFAULT, EntityStatus.SITTING);
 					}
-				}
-				else
-				{
-					say("И как я усну?");
-				}
-			}
-			
-			@Override
-			public void eat(Eatable eat) throws StatusException 
-			{
-				if(getStatus() != EntityStatus.SITTING)
-				{
-					throw new StatusException(EntityStatus.SITTING);
-				}
-				
-				if((getStatus() == EntityStatus.SITTING) && (getHunger() < getMaxHunger()))
-				{
-					setStatus(EntityStatus.EATING);
-					eat.takeBite();
-					setHunger(getHunger() + ((Gingerbread) eat).getSize().ordinal() + 1);
-					setStatus(EntityStatus.SITTING);
-					say("Вкусный был пряник!");
-				}
-				else
-				{
-					say("Я не хочу кушать!");
-				}
-			}
-			
-			@Override
-			public void drink(Drinkable drink) throws StatusException 
-			{
-				if(getStatus() != EntityStatus.SITTING)
-				{
-					throw new StatusException(EntityStatus.SITTING);
-				}
-				
-				if((getStatus() == EntityStatus.SITTING) && (getHunger() < getMaxHunger()))
-				{
-					setStatus(EntityStatus.DRINKING);
-					drink.takeSip();
-					setHunger(getHunger() + 1);
-					setStatus(EntityStatus.SITTING);
-					say("Вкусный сок!");
-				}
-				else
-				{
-					say("Я не хочу пить!");
-				}
-			}
-
-			@Override
-			public void awake() throws StatusException
-			{
-				if(getStatus() != EntityStatus.SLEEPING)
-				{
-					throw new StatusException(EntityStatus.SLEEPING);
-				}
-				
-				if(getStatus() == EntityStatus.SLEEPING)
-				{
-					setStatus(EntityStatus.AWAKENING);
-					try 
+					
+					if(getStatus() == EntityStatus.DEFAULT || getStatus() == EntityStatus.SITTING)
 					{
-						Thread.sleep(500);
-					} 
-					catch (InterruptedException e) 
-					{
-						e.printStackTrace();
-					}
-					setStatus(EntityStatus.DEFAULT);
-					say("Я проснулся!");
-				}
-				else
-				{
-					say("Я не сплю!");
-				}
-			}
-
-			@Override
-			public void lookAt(Object obj) 
-			{
-				class Formatter
-				{
-					public String format(Star star)
-					{
-						return star.getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + star.getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase();
-					}
-				}
-				
-				if(obj instanceof MainStar)
-				{
-					MainStar sun = (MainStar) obj;
-					if(sun.getPosition() == Time.MORNING.ordinal())
-					{
-						say("Какое красивое " + sun.getName() + "!");
+						say("Я спать!");
+						setStatus(EntityStatus.SLEEPING);
 						try 
 						{
-							Thread.sleep(1000);
-						}
-						catch (InterruptedException e) 
-						{
-							e.printStackTrace();
-						}
-					}
-					else
-					{
-						say("Эх... " + sun.getName() + " уже давно встало...");
-					} 
-				}
-				else if(obj instanceof Sky)
-				{
-					Sky sky = (Sky) obj;
-					if(getStatus() == EntityStatus.SITTING)
-					{
-						int star = (int)(Math.random()*sky.getStarCount());
-						say("Какая красивая " + new Formatter().format(sky.getStar(star)) + " звезда на небе");
-						try 
-						{
-							Thread.sleep(1000);
+							Thread.sleep(time);
 						} 
 						catch (InterruptedException e) 
 						{
@@ -170,10 +47,152 @@ public class Launcher
 					}
 					else
 					{
-						say("Присесть бы!");
+						say("И как я усну?");
+					}
+			}
+			
+			@Override
+			public void eat(Eatable eat) throws StatusException 
+			{
+				if(isAlive())
+				{
+					if(getStatus() != EntityStatus.SITTING)
+					{
+						throw new StatusException(EntityStatus.SITTING);
+					}
+					
+					if((getStatus() == EntityStatus.SITTING) && (getHunger() < getMaxHunger()))
+					{
+						setStatus(EntityStatus.EATING);
+						eat.takeBite();
+						setHunger(getHunger() + eat.getSaturation());
+						if(isAlive())
+						{
+							if(eat.getSaturation() < 0)
+							{
+								say("С этой едой что-то не так...");
+							}
+							setStatus(EntityStatus.SITTING);
+							say("Вкусная была еда!");
+						}
+					}
+					else
+					{
+						say("Я не хочу кушать!");
 					}
 				}
 			}
+			
+			@Override
+			public void drink(Drinkable drink) throws StatusException 
+			{
+					if(getStatus() != EntityStatus.SITTING)
+					{
+						throw new StatusException(EntityStatus.SITTING);
+					}
+					
+					if((getStatus() == EntityStatus.SITTING) && (getHunger() < getMaxHunger()))
+					{
+						setStatus(EntityStatus.DRINKING);
+						drink.takeSip();
+						setHunger(getHunger() + drink.getSaturation());
+						if(isAlive())
+						{
+							if(drink.getSaturation() < 0)
+							{
+								say("С этим напитком что-то не так...");
+							}
+							setStatus(EntityStatus.SITTING);
+							say("Вкусный напиток!");
+						}
+					}
+					else
+					{
+						say("Я не хочу пить!");
+					}
+			}
+
+			@Override
+			public void awake() throws StatusException
+			{
+					if(getStatus() != EntityStatus.SLEEPING)
+					{
+						throw new StatusException(EntityStatus.SLEEPING);
+					}
+					
+					if(getStatus() == EntityStatus.SLEEPING)
+					{
+						setStatus(EntityStatus.AWAKENING);
+						try 
+						{
+							Thread.sleep(500);
+						} 
+						catch (InterruptedException e) 
+						{
+							e.printStackTrace();
+						}
+						setStatus(EntityStatus.DEFAULT);
+						say("Я проснулся!");
+					}
+					else
+					{
+						say("Я не сплю!");
+					}
+			}
+
+			@Override
+			public void lookAt(Object obj) 
+			{
+					class Formatter
+					{
+						public String format(Star star)
+						{
+							return star.getSize().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase() + " " + star.getColor().getLocale().replaceAll("ий|ой|ый", "ая").toLowerCase();
+						}
+					}
+					
+					if(obj instanceof MainStar)
+					{
+						MainStar sun = (MainStar) obj;
+						if(sun.getPosition() == Time.MORNING.ordinal())
+						{
+							say("Какое красивое " + sun.getName() + "!");
+							try 
+							{
+								Thread.sleep(1000);
+							}
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
+							}
+						}
+						else
+						{
+							say("Эх... " + sun.getName() + " уже давно встало...");
+						} 
+					}
+					else if(obj instanceof Sky)
+					{
+						Sky sky = (Sky) obj;
+						if(getStatus() == EntityStatus.SITTING)
+						{
+							int star = (int)(Math.random()*sky.getStarCount());
+							say("Какая красивая " + new Formatter().format(sky.getStar(star)) + " звезда на небе");
+							try 
+							{
+								Thread.sleep(1000);
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
+							}
+						}
+						else
+						{
+							say("Присесть бы!");
+						}
+					}
+				}
 		};
 		
 		Randomizable rand = (min, max) -> {
@@ -183,9 +202,9 @@ public class Launcher
 		
 		MainStar sun = new MainStar(Size.LARGE, Color.YELLOW, 0, "Солнце");
 		
-		System.out.println(sun.toString());
+		//System.out.println(sun.toString());
 		
-		System.out.println();
+		//System.out.println();
 		
 		Star[] stars = new Star[10];
 		
@@ -197,21 +216,21 @@ public class Launcher
 			System.out.println(stars[i].toString());
 		}
 		
-		System.out.println();
+		//System.out.println();
 		
 		Sky sky = new Sky(stars);
 		
-		System.out.println(sky.toString());
+		//System.out.println(sky.toString());
 		
-		System.out.println();
+		//System.out.println();
 		
 		House carlsonHouse = new House(Size.SMALL, 25, Size.LITTLE, 6, Color.GREEN);
 		
-		System.out.println(carlsonHouse.toString());
+		//System.out.println(carlsonHouse.toString());
 		
 		House[] houses = new House[11];
 		
-		System.out.println();
+		//System.out.println();
 		
 		houses[0] = carlsonHouse;
 		
@@ -224,11 +243,11 @@ public class Launcher
 			System.out.println(houses[i].toString());
 		}
 		
-		System.out.println();
+		//System.out.println();
 		
 		World ostermalm = new World(sun, sky, houses);
 		
-		System.out.println(ostermalm.toString());
+		//System.out.println(ostermalm.toString());
 		
 		Util.Filler.fillGinger(ostermalm.getHouse(0).getPorch());
 		Util.Filler.fillJuice(ostermalm.getHouse(0).getPorch());
@@ -237,6 +256,18 @@ public class Launcher
 		
 		int gIndex = 0;
 		int jIndex = 0;
+		
+		Gangster gang = new Gangster(10, "gang");
+		try {
+			gang.poison(ostermalm.getHouse(0).getPorch());
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
+				| NoSuchMethodException | InvocationTargetException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		System.out.println(ostermalm.getHouse(0).getPorch().toString());
+		System.out.println(ostermalm.getHouse(0).getPorch().contSize());
 		
 		while(true)
 		{
@@ -264,6 +295,7 @@ public class Launcher
 			}
 			//день
 			carlson.setHunger((int)((Math.random()*carlson.getMaxHunger()) + 1));
+			carlson.setHunger(2);
 			System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
 			carlson.say("Эх, пойду на крыльцо!");
 			Util.delay(1500);
@@ -304,6 +336,10 @@ public class Launcher
 				{
 					e.printStackTrace();
 				}
+				if(!carlson.isAlive())
+				{
+					break;
+				}
 				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
 				carlson.say("Масса пряника в у.е = " + ginger[gIndex].getBites());
 			}
@@ -332,6 +368,10 @@ public class Launcher
 				catch (StatusException e) 
 				{
 					e.printStackTrace();
+				}
+				if(!carlson.isAlive())
+				{
+					break;
 				}
 				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
 				carlson.say("Объём оставшегося сока - " + juice[jIndex].getVolume());
@@ -375,5 +415,7 @@ public class Launcher
 				}
 			}
 		}
+		System.err.println("Карлсон умер!");
+		//TODO Карлсон помер
 	}
 }

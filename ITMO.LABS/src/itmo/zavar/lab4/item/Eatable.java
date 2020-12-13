@@ -7,4 +7,6 @@ public interface Eatable
 	public void takeBite();
 	
 	public int getBites();
+	
+	public int getSaturation();
 }

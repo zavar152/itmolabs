@@ -9,12 +9,27 @@ public final class Gingerbread extends Item implements Eatable
 	private boolean eaten = false;
 	private Size size;
 	private int bites;
+	private int saturation;
 
-	public Gingerbread(Size size, String name, int bites) 
+	public Gingerbread(Size size, String name, int bites, int saturation) 
 	{
 		super(name);
 		this.size = size;
 		this.bites = bites;
+		if(bites <= 0)
+		{
+			eaten = true;
+		}
+		if(saturation == 0)
+		{
+			this.saturation = size.ordinal() + 1;
+		}
+	}
+	
+	@Override
+	public int getSaturation() 
+	{
+		return saturation;
 	}
 	
 	@Override
@@ -62,7 +77,7 @@ public final class Gingerbread extends Item implements Eatable
 	@Override
 	public String toString() 
 	{
-		return "Gingerbread." + getSize();
+		return "Gingerbread." + getSize() + ".sat" + saturation;
 	}
 	
 	@Override

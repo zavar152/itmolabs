@@ -124,14 +124,20 @@ public final class House
 		
 		public void join(EntityLiving entity)  
 		{
-			this.entity = entity;
-			entity.setStatus(EntityStatus.SITTING);
+			if(entity.isAlive())
+			{
+				this.entity = entity;
+				entity.setStatus(EntityStatus.SITTING);
+			}
 		}
 		
 		public void leave()
 		{
-			entity.setStatus(EntityStatus.DEFAULT);
-			entity = null;
+			if(entity != null)
+			{
+				entity.setStatus(EntityStatus.DEFAULT);
+				entity = null;
+			}
 		}
 		
 		public boolean isBusy()
@@ -190,7 +196,7 @@ public final class House
 		@Override
 		public String toString() 
 		{
-			return "Porch." + hashCode() + ".s" + getSize();
+			return "Porch." + hashCode() + ".s" + getSize() + "." + inventory.toString();
 		}
 		
 		@Override

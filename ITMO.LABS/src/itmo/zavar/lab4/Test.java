@@ -1,18 +1,39 @@
 package itmo.zavar.lab4;
 
-import itmo.zavar.lab4.util.Color;
-import itmo.zavar.lab4.util.Size;
-import itmo.zavar.lab4.world.sky.Sky;
-import itmo.zavar.lab4.world.sky.Star;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class Test {
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws InvocationTargetException, InstantiationException, NoSuchMethodException 
 	{	
-		Sky sky1 = new Sky(new Star(Size.BIG, Color.YELLOW, ""), new Star(Size.BIG, Color.GREEN, ""));
-		Sky sky2 = new Sky(new Star(Size.SMALL, Color.YELLOW, ""), new Star(Size.BIG, Color.GREEN, ""));
+		/*Star star = new Star(Size.BIG, Color.WHITE, "gg");
 		
-		System.out.println(sky2.equals(sky1));
+		try 
+		{
+			Field f = star.getClass().getDeclaredField("color");
+			f.setAccessible(true);
+			Color c = (Color) f.get(star);
+			System.out.println(c);
+		} 
+		catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) 
+		{
+			e.printStackTrace();
+		}*/
+		
+		try(FileOutputStream fos = new FileOutputStream(new File("sample.yaml"));) {
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//Sky sky1 = new Sky(new Star(Size.BIG, Color.YELLOW, ""), new Star(Size.BIG, Color.GREEN, ""));
+		//Sky sky2 = new Sky(new Star(Size.SMALL, Color.YELLOW, ""), new Star(Size.BIG, Color.GREEN, ""));
+		
+		//System.out.println(sky2.equals(sky1));
 		
 		//Gingerbread g = new Gingerbread(3, Size.LITTLE);
 		

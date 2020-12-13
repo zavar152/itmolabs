@@ -1,6 +1,8 @@
 package itmo.zavar.lab4;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import itmo.zavar.lab4.entity.EntityLiving;
 import itmo.zavar.lab4.entity.EntityStatus;
@@ -9,6 +11,7 @@ import itmo.zavar.lab4.item.Drinkable;
 import itmo.zavar.lab4.item.Eatable;
 import itmo.zavar.lab4.util.Color;
 import itmo.zavar.lab4.util.Randomizable;
+import itmo.zavar.lab4.util.Report;
 import itmo.zavar.lab4.util.Size;
 import itmo.zavar.lab4.util.Util;
 import itmo.zavar.lab4.world.Time;
@@ -20,13 +23,18 @@ import itmo.zavar.lab4.world.sky.Star;
 
 public class Launcher 
 {
-	public static void main(String[] args) 
+	private static boolean gangTryPoison = false;
+	private static boolean gangAttacked = false;
+
+	public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException 
 	{
 		EntityLiving carlson = new EntityLiving(20, "Карлсон") {
 			
 			@Override
 			public void sleep(int time) throws StatusException 
 			{
+				if(isAlive())
+				{
 					if(getStatus() != EntityStatus.DEFAULT && getStatus() != EntityStatus.SITTING)
 					{
 						throw new StatusException(EntityStatus.DEFAULT, EntityStatus.SITTING);
@@ -36,19 +44,13 @@ public class Launcher
 					{
 						say("Я спать!");
 						setStatus(EntityStatus.SLEEPING);
-						try 
-						{
-							Thread.sleep(time);
-						} 
-						catch (InterruptedException e) 
-						{
-							e.printStackTrace();
-						}
+						Util.delay(time);
 					}
 					else
 					{
 						say("И как я усну?");
 					}
+				}
 			}
 			
 			@Override
@@ -73,12 +75,13 @@ public class Launcher
 								say("С этой едой что-то не так...");
 							}
 							setStatus(EntityStatus.SITTING);
-							say("Вкусная была еда!");
+							say("Вкусный пряник!");
 						}
 					}
 					else
 					{
 						say("Я не хочу кушать!");
+						setHunger(getHunger()-1);
 					}
 				}
 			}
@@ -86,6 +89,8 @@ public class Launcher
 			@Override
 			public void drink(Drinkable drink) throws StatusException 
 			{
+				if(isAlive())
+				{
 					if(getStatus() != EntityStatus.SITTING)
 					{
 						throw new StatusException(EntityStatus.SITTING);
@@ -103,18 +108,22 @@ public class Launcher
 								say("С этим напитком что-то не так...");
 							}
 							setStatus(EntityStatus.SITTING);
-							say("Вкусный напиток!");
+							say("Вкусный сок!");
 						}
 					}
 					else
 					{
 						say("Я не хочу пить!");
+						setHunger(getHunger()-1);
 					}
+				}
 			}
 
 			@Override
 			public void awake() throws StatusException
 			{
+				if(isAlive())
+				{
 					if(getStatus() != EntityStatus.SLEEPING)
 					{
 						throw new StatusException(EntityStatus.SLEEPING);
@@ -123,14 +132,7 @@ public class Launcher
 					if(getStatus() == EntityStatus.SLEEPING)
 					{
 						setStatus(EntityStatus.AWAKENING);
-						try 
-						{
-							Thread.sleep(500);
-						} 
-						catch (InterruptedException e) 
-						{
-							e.printStackTrace();
-						}
+						Util.delay(500);
 						setStatus(EntityStatus.DEFAULT);
 						say("Я проснулся!");
 					}
@@ -138,11 +140,14 @@ public class Launcher
 					{
 						say("Я не сплю!");
 					}
+				}
 			}
 
 			@Override
 			public void lookAt(Object obj) 
 			{
+				if(isAlive())
+				{
 					class Formatter
 					{
 						public String format(Star star)
@@ -157,14 +162,7 @@ public class Launcher
 						if(sun.getPosition() == Time.MORNING.ordinal())
 						{
 							say("Какое красивое " + sun.getName() + "!");
-							try 
-							{
-								Thread.sleep(1000);
-							}
-							catch (InterruptedException e) 
-							{
-								e.printStackTrace();
-							}
+							Util.delay(1000);
 						}
 						else
 						{
@@ -178,14 +176,7 @@ public class Launcher
 						{
 							int star = (int)(Math.random()*sky.getStarCount());
 							say("Какая красивая " + new Formatter().format(sky.getStar(star)) + " звезда на небе");
-							try 
-							{
-								Thread.sleep(1000);
-							} 
-							catch (InterruptedException e) 
-							{
-								e.printStackTrace();
-							}
+							Util.delay(1000);
 						}
 						else
 						{
@@ -193,6 +184,7 @@ public class Launcher
 						}
 					}
 				}
+			}
 		};
 		
 		Randomizable rand = (min, max) -> {
@@ -213,7 +205,7 @@ public class Launcher
 			int size = (int)(Math.random()*5);
 			int color = (int)(Math.random()*9);
 			stars[i] = new Star(Size.values()[size], Color.values()[color], "");
-			System.out.println(stars[i].toString());
+			//System.out.println(stars[i].toString());
 		}
 		
 		//System.out.println();
@@ -240,7 +232,7 @@ public class Launcher
 			int temp = rand.random(15, 25);
 			int color = (int)(Math.random()*9);
 			houses[i] = new House(Size.values()[size], temp, Size.values()[(int)(Math.random()*4)], 2, Color.values()[color]);
-			System.out.println(houses[i].toString());
+			//System.out.println(houses[i].toString());
 		}
 		
 		//System.out.println();
@@ -257,21 +249,32 @@ public class Launcher
 		int gIndex = 0;
 		int jIndex = 0;
 		
-		Gangster gang = new Gangster(10, "gang");
-		try {
-			gang.poison(ostermalm.getHouse(0).getPorch());
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
-				| NoSuchMethodException | InvocationTargetException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Gangster gang = new Gangster(10, "Афоня");
 		
-		System.out.println(ostermalm.getHouse(0).getPorch().toString());
-		System.out.println(ostermalm.getHouse(0).getPorch().contSize());
+		
+		//System.out.println(ostermalm.getHouse(0).getPorch().toString());
+		//System.out.println(ostermalm.getHouse(0).getPorch().contSize());
+		
+		carlson.setHunger((int)((Math.random()*carlson.getMaxHunger()) + 1));
+		
+		if(Math.random() <= 0.40)
+		{
+			gang.say("Отравлю его еду...");
+			gangTryPoison = true;
+			try
+			{
+				gang.poisonItems(ostermalm.getHouse(0).getPorch());
+			} 
+			catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
+					| NoSuchMethodException | InvocationTargetException e) 
+			{
+				e.printStackTrace();
+			}
+		}
 		
 		while(true)
 		{
-			//утро
+			//утро	
 			ostermalm.setTime(Time.MORNING);
 			try 
 			{
@@ -294,9 +297,8 @@ public class Launcher
 				carlson.say("Хорошо спалось в домике!");
 			}
 			//день
-			carlson.setHunger((int)((Math.random()*carlson.getMaxHunger()) + 1));
-			carlson.setHunger(2);
-			System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
+			//System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
+			Util.systemMessage("голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger());
 			carlson.say("Эх, пойду на крыльцо!");
 			Util.delay(1500);
 			ostermalm.getHouse(0).getPorch().join(carlson);
@@ -313,71 +315,94 @@ public class Launcher
 			carlson.say("Поем пряников!");
 			Util.delay(2000);
 
-			if(ginger[gIndex].isEaten())
+			if(ginger[gIndex] != null)
 			{
-				//System.out.println("***nextG***");
-				gIndex++;
-			}
-			if(3 == gIndex)
-			{
-				carlson.say("Эх, пряники закончились, надо пополнить запасы");
-				Util.Filler.fillGinger(ostermalm.getHouse(0).getPorch());
-				System.out.println("***запас пряников пополнен***");
-				gIndex = 0;
+				if(ginger[gIndex].isEaten())
+				{
+					//System.out.println("***nextG***");
+					gIndex++;
+				}
+				if(3 == gIndex)
+				{
+					carlson.say("Эх, пряники закончились, надо пополнить запасы");
+					Util.Filler.fillGinger(ostermalm.getHouse(0).getPorch());
+					Util.systemMessage("запас пряников пополнен");
+					gIndex = 0;
+				}
+				else
+				{
+					Util.systemMessage("Масса пряника в у.е = " + ginger[gIndex].getBites());
+						try 
+						{
+							carlson.eat(ginger[gIndex]);
+						} 
+						catch (StatusException e) 
+						{
+							e.printStackTrace();
+						}
+						if(!carlson.isAlive())
+						{
+							break;
+						}
+						Util.systemMessage("Масса пряника в у.е = " + ginger[gIndex].getBites());
+				}
 			}
 			else
 			{
-				carlson.say("Масса пряника в у.е = " + ginger[gIndex].getBites());
-				try 
-				{
-					carlson.eat(ginger[gIndex]);
-				} 
-				catch (StatusException e) 
-				{
-					e.printStackTrace();
-				}
-				if(!carlson.isAlive())
-				{
-					break;
-				}
-				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
-				carlson.say("Масса пряника в у.е = " + ginger[gIndex].getBites());
+				carlson.say("Где мой пряник?!");
+				carlson.setHunger(carlson.getHunger()-1);
 			}
+			Util.systemMessage("голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger());
 			
 			carlson.say("Попью сок!");
 			Util.delay(2000);
-			if(juice[jIndex].isEmpty())
+			
+			if(juice[jIndex] != null)
 			{
-				//System.out.println("***nextJ***");
-				jIndex++;
-			}
-			if(3 == jIndex)
-			{
-				carlson.say("Эх, сок закончился, надо пополнить запасы");
-				Util.Filler.fillJuice(ostermalm.getHouse(0).getPorch());
-				System.out.println("***запас сока пополнен***");
-				jIndex = 0;
+				if(juice[jIndex].isEmpty())
+				{
+					//System.out.println("***nextJ***");
+					jIndex++;
+				}
+				if(3 == jIndex)
+				{
+					carlson.say("Эх, сок закончился, надо пополнить запасы");
+					Util.Filler.fillJuice(ostermalm.getHouse(0).getPorch());
+					Util.systemMessage("запас сока пополнен");
+					jIndex = 0;
+					if(jIndex == 0 && gIndex == 0)
+					{
+						gangTryPoison = false;
+						gang.say("Чёрт, отравить не получилось!");
+					}
+				}
+				else
+				{
+						Util.systemMessage("Объём оставшегося сока - " + juice[jIndex].getVolume());
+						try 
+						{
+							carlson.drink(juice[jIndex]);
+						} 
+						catch (StatusException e) 
+						{
+							e.printStackTrace();
+						}
+						if(!carlson.isAlive())
+						{
+							break;
+						}
+						Util.systemMessage("Объём оставшегося сока - " + juice[jIndex].getVolume());
+				}
 			}
 			else
 			{
-				carlson.say("Объём оставшегося сока - " + juice[jIndex].getVolume());
-				try 
-				{
-					carlson.drink(juice[jIndex]);
-				} 
-				catch (StatusException e) 
-				{
-					e.printStackTrace();
-				}
-				if(!carlson.isAlive())
-				{
-					break;
-				}
-				System.out.println("***голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger() + "***");
-				carlson.say("Объём оставшегося сока - " + juice[jIndex].getVolume());
+				carlson.say("Где мой сок?!");
+				carlson.setHunger(carlson.getHunger()-1);
 			}
+			Util.systemMessage("голод Карлсона - " + carlson.getHunger() + "/" + carlson.getMaxHunger());
 			
 			Util.delay(3000);
+			
 			//вечер
 			ostermalm.setTime(Time.EVENING);
 			carlson.say("Буду любоваться звёздами!");
@@ -389,6 +414,51 @@ public class Launcher
 			//ночь
 			ostermalm.setTime(Time.NIGHT);
 			ostermalm.getHouse(0).setTemp(rand.random(15, 25));
+			
+			if(!gangAttacked && !gangTryPoison)
+			{
+				gang.say("Ну все, Карлсон, тебе конец.");
+				Util.delay(1000);
+				Util.systemMessage("На Карлсона напали");
+				Util.delay(1000);
+				if(Math.random() <= 0.835)
+				{
+					gang.killEntity(carlson);
+					gangAttacked = true;
+					break;
+				}
+				else
+				{
+					gang.say("Ай, чёрт!");
+					Util.delay(1000);
+					carlson.say("Слышь, урод!");
+					Util.delay(1000);
+					gang.say("Пора валить...");
+					Util.delay(1000);
+					Util.systemMessage("Карлсон пытается поймать " + gang.getName().replace('я', 'ю'));
+					Util.delay(1000);
+					if(Math.random() <= 0.45)
+					{
+						gang.say("НЕТ!!!");
+						Util.delay(1000);
+						gang.kill();
+						carlson.say("Отдохни...");
+						Util.delay(1000);
+						Util.systemMessage("Карлсон убил " + gang.getName().replace('я', 'ю'));
+					}
+					else
+					{
+						gang.say("Фух, удрал...");
+						Util.delay(1000);
+						Util.systemMessage("Карлсон не смог поймать " + gang.getName().replace('я', 'ю'));
+						Util.delay(1000);
+						carlson.say("Ну все, я тебя найду! Звоню Малышу...");
+					}
+					createReport(gang, carlson);
+				}
+				gangAttacked = true;
+			}
+			
 			if(ostermalm.getHouse(0).getTemp() >= 20)
 			{
 				carlson.say("Жарко в домике, буду спать на крылечке.");
@@ -415,7 +485,47 @@ public class Launcher
 				}
 			}
 		}
-		System.err.println("Карлсон умер!");
-		//TODO Карлсон помер
+		if(gangAttacked)
+		{
+			System.err.println("Карлсона убили!");
+		}
+		else if(gangTryPoison)
+		{
+			System.err.println("Карлсона отравили!");
+		}
+		createReport(gang, carlson);
+	}
+	
+	private static void createReport(Gangster gang, EntityLiving carlson)
+	{
+		try(Report r = new Report(System.getProperty("user.home")))
+		{
+			Map<String, String> map = new LinkedHashMap<String, String>();
+			map.put("carlson", "");
+			map.put("killedBy", "false");
+			map.put("gang", "");
+			map.replace("carlson", Boolean.toString(!carlson.isAlive()));
+			map.replace("gang", Boolean.toString(!gang.isAlive()));	
+			if(gang.isAlive())
+			{
+				if(gangAttacked)
+				{
+					map.replace("killedBy", "killed");
+				}
+				else if(gangTryPoison)
+				{
+					map.replace("killedBy", "poisoned");
+				}
+			}
+			else
+			{
+				map.replace("killedBy", "false");
+			}
+			r.write(map);
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	}
 }

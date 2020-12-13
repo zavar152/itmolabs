@@ -7,5 +7,6 @@ public enum EntityStatus
 	EATING,
 	DRINKING,
 	AWAKENING,
-	SITTING
+	SITTING,
+	DEAD
 }

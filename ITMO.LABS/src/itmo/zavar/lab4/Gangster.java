@@ -48,18 +48,15 @@ public class Gangster extends EntityLiving
 		
 	}
 	
-	public void stealItemFrom(Container cont) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
+	public void stealItemFrom(Container cont, int index) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
 	{
 		Field f = cont.getClass().getDeclaredField("inventory");
 		f.setAccessible(true);
 		ArrayList<Item> c = (ArrayList<Item>) f.get(cont);
-		System.out.println(c);
-		System.out.println(c.size());
-		c.remove(c.size()-1);
-		c.add(null);
+		c.set(index, null);
 	}
 
-	public void poison(Container cont) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException
+	public void poisonItems(Container cont) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException
 	{
 		Field f = cont.getClass().getDeclaredField("inventory");
 		f.setAccessible(true);
@@ -70,5 +67,12 @@ public class Gangster extends EntityLiving
 			f2.setAccessible(true);
 			f2.set(item, (int) -((int)(Math.random()*10)));
 		}
+		System.out.println(c.toString());
+	}
+	
+	public void killEntity(EntityLiving entity)
+	{
+		say("Прощай, " + entity.getName() + "!");
+		entity.kill();
 	}
 }

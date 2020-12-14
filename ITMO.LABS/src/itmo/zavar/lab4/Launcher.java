@@ -23,8 +23,10 @@ import itmo.zavar.lab4.world.sky.Star;
 
 public class Launcher 
 {
+	private static boolean gangPoison = false;
+	private static boolean gangAttack = false;
+	private static boolean gangTryAttack = false;
 	private static boolean gangTryPoison = false;
-	private static boolean gangAttacked = false;
 
 	public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException 
 	{
@@ -260,6 +262,7 @@ public class Launcher
 		if(Math.random() <= 0.40)
 		{
 			gang.say("Отравлю его еду...");
+			gangPoison = true;
 			gangTryPoison = true;
 			try
 			{
@@ -372,7 +375,7 @@ public class Launcher
 					jIndex = 0;
 					if(jIndex == 0 && gIndex == 0)
 					{
-						gangTryPoison = false;
+						gangPoison = false;
 						gang.say("Чёрт, отравить не получилось!");
 					}
 				}
@@ -415,8 +418,9 @@ public class Launcher
 			ostermalm.setTime(Time.NIGHT);
 			ostermalm.getHouse(0).setTemp(rand.random(15, 25));
 			
-			if(!gangAttacked && !gangTryPoison)
+			if(!gangAttack && !gangPoison)
 			{
+				gangTryAttack = true;
 				gang.say("Ну все, Карлсон, тебе конец.");
 				Util.delay(1000);
 				Util.systemMessage("На Карлсона напали");
@@ -424,7 +428,7 @@ public class Launcher
 				if(Math.random() <= 0.835)
 				{
 					gang.killEntity(carlson);
-					gangAttacked = true;
+					gangAttack = true;
 					break;
 				}
 				else
@@ -456,7 +460,7 @@ public class Launcher
 					}
 					createReport(gang, carlson);
 				}
-				gangAttacked = true;
+				gangAttack = true;
 			}
 			
 			if(ostermalm.getHouse(0).getTemp() >= 20)
@@ -485,41 +489,69 @@ public class Launcher
 				}
 			}
 		}
-		if(gangAttacked)
+		if(gangAttack)
 		{
 			System.err.println("Карлсона убили!");
 		}
-		else if(gangTryPoison)
+		else if(gangPoison)
 		{
 			System.err.println("Карлсона отравили!");
 		}
 		createReport(gang, carlson);
 	}
 	
+	
+	/**
+	 * @author Ярослав
+	 * @param gang - киллер
+	 * @param carlson - Карлсон
+	 * @apiNote 
+	 * Keys:
+	 * <li>carlson - убит ли Карлсон (false/true)
+	 * <li>carlsonKilledBy - как убит Карлсон (false - жив; killed - убит; poisoned - отравлен)
+	 * <li>gangTry - как пытался избавиться от Карслона киллер (kill - убить; poison - отравить; both - оба варианта)
+	 * <li>gang - убит ли киллер (false/true)
+	 * <li>gangName - имя киллера (тип String)
+	 */
 	private static void createReport(Gangster gang, EntityLiving carlson)
 	{
 		try(Report r = new Report(System.getProperty("user.home")))
 		{
 			Map<String, String> map = new LinkedHashMap<String, String>();
 			map.put("carlson", "");
-			map.put("killedBy", "false");
+			map.put("carlsonKilledBy", "false");
+			map.put("gangTry", "");
 			map.put("gang", "");
+			map.put("gangName", gang.getName());
 			map.replace("carlson", Boolean.toString(!carlson.isAlive()));
 			map.replace("gang", Boolean.toString(!gang.isAlive()));	
 			if(gang.isAlive())
 			{
-				if(gangAttacked)
+				if(gangAttack)
 				{
-					map.replace("killedBy", "killed");
+					map.replace("carlsonKilledBy", "killed");
 				}
-				else if(gangTryPoison)
+				else if(gangPoison)
 				{
-					map.replace("killedBy", "poisoned");
-				}
+					map.replace("carlsonKilledBy", "poisoned");
+				}	
 			}
 			else
 			{
-				map.replace("killedBy", "false");
+				map.replace("carlsonKilledBy", "false");
+				
+			}
+			if(gangTryAttack & gangTryPoison)
+			{
+				map.replace("gangTry", "both");
+			}
+			else if(gangTryAttack)
+			{
+				map.replace("gangTry", "kill");
+			}
+			else if(gangTryPoison)
+			{
+				map.replace("gangTry", "poison");
 			}
 			r.write(map);
 		}
